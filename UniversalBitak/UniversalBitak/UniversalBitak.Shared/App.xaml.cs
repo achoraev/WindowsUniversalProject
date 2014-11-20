@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
+using Parse;
 
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=234227
 
@@ -37,6 +38,8 @@ namespace UniversalBitak
         {
             this.InitializeComponent();
             this.Suspending += this.OnSuspending;
+
+            ParseClient.Initialize("ejNkb1Mxd2BVEoVGITwFYuFAZKHkFRa7FS59BWgz", "G0FAF4yNBOuvSyQPxLLHFjrxygk1FvmkGLXYAZE5");
         }
 
         /// <summary>
@@ -45,7 +48,7 @@ namespace UniversalBitak
         /// search results, and so forth.
         /// </summary>
         /// <param name="e">Details about the launch request and process.</param>
-        protected override void OnLaunched(LaunchActivatedEventArgs e)
+        protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
@@ -53,6 +56,10 @@ namespace UniversalBitak
                 this.DebugSettings.EnableFrameRateCounter = true;
             }
 #endif
+            // for Parse
+            var testObject = new ParseObject("TestItem");
+            testObject["test"] = "wtf";
+            await testObject.SaveAsync();
 
             Frame rootFrame = Window.Current.Content as Frame;
 
@@ -95,7 +102,7 @@ namespace UniversalBitak
                 // When the navigation stack isn't restored navigate to the first page,
                 // configuring the new page by passing required information as a navigation
                 // parameter
-                if (!rootFrame.Navigate(typeof(UniversalBitak.Pages.MainPage), e.Arguments))
+                if (!rootFrame.Navigate(typeof(Pages.MainPage), e.Arguments))
                 {
                     throw new Exception("Failed to create initial page");
                 }
