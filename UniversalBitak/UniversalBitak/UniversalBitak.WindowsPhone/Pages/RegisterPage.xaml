@@ -23,13 +23,66 @@
 
         <!-- Title Panel -->
         <StackPanel Grid.Row="0" Margin="19,0,0,0">
-            <TextBlock Text="{ThemeResource AppName}" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
-            <TextBlock Text="page title" Margin="0,-6.5,0,26.5" Style="{ThemeResource HeaderTextBlockStyle}" CharacterSpacing="{ThemeResource PivotHeaderItemCharacterSpacing}"/>
+            <TextBlock Text="{ThemeResource AppName}" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>           
         </StackPanel>
 
         <!--TODO: Content should be placed within the following grid-->
         <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
+            <TextBlock Name="username"
+                       HorizontalAlignment="Left" 
+                       Margin="43,47,0,0" 
+                       TextWrapping="Wrap" 
+                       Text="Username" 
+                       Width="100"
+                       Height="30"
+                       FontSize="20"
+                       VerticalAlignment="Top"/>
+            <TextBox Name="inputUsername"
+                     HorizontalAlignment="Left" 
+                     Margin="43,80,0,0" 
+                     TextWrapping="Wrap"
+                     PlaceholderText="enter username" 
+                     Width="250"
+                     VerticalAlignment="Top"/>
 
+            <TextBlock Name="pass"
+                       HorizontalAlignment="Left" 
+                       Margin="43,130,0,0" 
+                       TextWrapping="Wrap" 
+                       Text="Password" 
+                       Width="100"
+                       Height="30"
+                       FontSize="20"
+                       VerticalAlignment="Top"/>
+            <PasswordBox Name="inputPassword"
+                     HorizontalAlignment="Left" 
+                     Margin="43,160,0,0"                                          
+                     PlaceholderText="enter password"                     
+                     Width="250"
+                     VerticalAlignment="Top"/>
+
+            <TextBlock Name="mail"
+                       HorizontalAlignment="Left" 
+                       Margin="43,210,0,0" 
+                       TextWrapping="Wrap" 
+                       Text="E-mail" 
+                       Width="100"
+                       Height="30"
+                       FontSize="20"
+                       VerticalAlignment="Top"/>
+            <TextBox Name="inputEmail"
+                     HorizontalAlignment="Left" 
+                     Margin="43,240,0,0" 
+                     TextWrapping="Wrap"
+                     PlaceholderText="enter e-mail" 
+                     Width="250"
+                     VerticalAlignment="Top"/>
+
+            <Button Content="Register"
+                    HorizontalAlignment="Left" 
+                    Margin="114,300,0,0"
+                    VerticalAlignment="Top"
+                    Click="ToGridViewPage"/>
         </Grid>
     </Grid>
 </Page>

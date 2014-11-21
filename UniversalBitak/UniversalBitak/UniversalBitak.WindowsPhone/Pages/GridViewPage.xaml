@@ -22,14 +22,21 @@
         </Grid.RowDefinitions>
 
         <!-- Title Panel -->
-        <StackPanel Grid.Row="0" Margin="19,0,0,0">
-            <TextBlock Text="{ThemeResource AppName}" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
-            <TextBlock Text="Grid View" Margin="0,0,0,26.5" Style="{ThemeResource HeaderTextBlockStyle}" CharacterSpacing="{ThemeResource PivotHeaderItemCharacterSpacing}"/>
+        <StackPanel Grid.Row="0" Margin="0,0,0,0">
+            <TextBlock Height="50"
+            	Text="{ThemeResource AppName}" 
+            	Style="{ThemeResource TitleTextBlockStyle}" Margin="10,0,100,0"/>
+            <Button Content="Add New Item"                     
+                    HorizontalAlignment="Stretch" 
+                    VerticalAlignment="Stretch" 
+                    Margin="60,0,60,0"
+                    Click="AddNewItem"/>
         </StackPanel>
 
         <!--TODO: Content should be placed within the following grid-->
         <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
 
         </Grid>
+
     </Grid>
 </Page>

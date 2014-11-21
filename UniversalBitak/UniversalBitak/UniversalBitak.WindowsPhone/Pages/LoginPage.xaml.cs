@@ -15,6 +15,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Windows.UI.Popups;
+using Parse;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -107,5 +109,43 @@ namespace UniversalBitak.Pages
         }
 
         #endregion
+
+        private async void ToGridViewPage(object sender, RoutedEventArgs e)
+        {
+            // parse login
+            var username = inputUsername.Text.ToString();
+            var password = inputPassword.Password.ToString();
+
+            try
+            {
+                await ParseUser.LogInAsync(username, password);
+                ShowMessageBox("Successfully registered", "Alert");
+                this.Frame.Navigate(typeof(Pages.DetailsPage));
+            }
+            catch (Exception ex)
+            {
+                ShowMessageBox("Registration failed", ex.Message.ToString()); 
+            }                        
+        }
+
+        private void ToRegisterPage(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(Pages.RegisterPage));
+        }
+
+        private void ShowMessageBox(string message, string title)
+        {
+            MessageDialog msgDialog = new MessageDialog(message, title);
+
+            //OK Button
+            UICommand okBtn = new UICommand("OK");
+            msgDialog.Commands.Add(okBtn);
+
+            //Cancel Button
+            //UICommand cancelBtn = new UICommand("Cancel");           
+            //msgDialog.Commands.Add(cancelBtn);
+
+            msgDialog.ShowAsync();
+        }
     }
 }

@@ -107,5 +107,11 @@ namespace UniversalBitak.Pages
         }
 
         #endregion
+
+        private void AddNewItem(object sender, RoutedEventArgs e)
+        {
+            // todo change to newItemPage
+            this.Frame.Navigate(typeof(Pages.LoginPage));
+        }
     }
 }
