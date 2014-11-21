@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="UniversalBitak.Pages.MainPage"
+    x:Class="UniversalBitak.Pages.GridViewPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:UniversalBitak.Pages"
@@ -24,22 +24,12 @@
         <!-- Title Panel -->
         <StackPanel Grid.Row="0" Margin="19,0,0,0">
             <TextBlock Text="{ThemeResource AppName}" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
+            <TextBlock Text="Grid View" Margin="0,0,0,26.5" Style="{ThemeResource HeaderTextBlockStyle}" CharacterSpacing="{ThemeResource PivotHeaderItemCharacterSpacing}"/>
         </StackPanel>
 
         <!--TODO: Content should be placed within the following grid-->
-        <Image HorizontalAlignment="Left"
-               Name="logo"
-               Height="211"
-               Margin="97,54,0,0" 
-               Grid.Row="1" 
-               VerticalAlignment="Top" 
-               Width="220"/>
-        <Button Content="Enter"
-                Name="EnterBtn"
-                Grid.Row="1" 
-                Margin="97,323,0,185" 
-                Width="220" 
-                Height="96" 
-                Click="ToGridViewPage"/>        
+        <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
+
+        </Grid>
     </Grid>
 </Page>

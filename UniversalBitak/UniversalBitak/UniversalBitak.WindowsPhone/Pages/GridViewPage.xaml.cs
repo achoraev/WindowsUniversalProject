@@ -1,77 +1,40 @@
-﻿// The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
+﻿using UniversalBitak.Common;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.Foundation;
+using Windows.Foundation.Collections;
+using Windows.Graphics.Display;
+using Windows.UI.ViewManagement;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Navigation;
+
+// The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
+
 namespace UniversalBitak.Pages
 {
-    using Parse;
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using System.Net.Http;
-    using System.Runtime.InteropServices.WindowsRuntime;
-    using UniversalBitak.Common;
-    using UniversalBitak.Models;
-    using Windows.Foundation;
-    using Windows.Foundation.Collections;
-    using Windows.Graphics.Display;
-    using Windows.UI.ViewManagement;
-    using Windows.UI.Xaml;
-    using Windows.UI.Xaml.Controls;
-    using Windows.UI.Xaml.Controls.Primitives;
-    using Windows.UI.Xaml.Data;
-    using Windows.UI.Xaml.Input;
-    using Windows.UI.Xaml.Media;
-    using Windows.UI.Xaml.Navigation;
-
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainPage : Page
+    public sealed partial class GridViewPage : Page
     {
         private NavigationHelper navigationHelper;
         private ObservableDictionary defaultViewModel = new ObservableDictionary();
 
-        public MainPage()
+        public GridViewPage()
         {
             this.InitializeComponent();
-
-            //GetParseObjects();            
 
             this.navigationHelper = new NavigationHelper(this);
             this.navigationHelper.LoadState += this.NavigationHelper_LoadState;
             this.navigationHelper.SaveState += this.NavigationHelper_SaveState;
-        }
-
-        private async void GetParseObjects()
-        {            
-            var allItems = ParseObject.GetQuery("Item");
-            IEnumerable<ParseObject> results = await allItems.FindAsync();
-
-            List<Item> items = ConvertFromParseObject(results);
-
-            
-            //var anotherApplication = new ParseObject("Item");
-            //var applicantResumeFile = anotherApplication.Get<ParseFile>("imac");
-            //Byte[] resumeText = await new HttpClient().GetByteArrayAsync(applicantResumeFile.Url);
-        }
-
-        private List<Item> ConvertFromParseObject(IEnumerable<ParseObject> input)
-        {
-            var items = new List<Item>();
-
-            foreach (var item in input)
-            {
-                items.Add(new Item
-                {
-                    itemName = item["itemName"].ToString(),
-                    itemCategory = item["itemCategory"].ToString(),
-                    itemDescription = item["itemDescription"].ToString(),
-                    url = item.Get<ParseFile>("itemPicture").Url,
-                    //itemPrice = item.Get<Decimal>("itemPrice")                                   
-                });
-            }
-
-            return items;
         }
 
         /// <summary>
@@ -144,10 +107,5 @@ namespace UniversalBitak.Pages
         }
 
         #endregion
-
-        private void ToGridViewPage(object sender, RoutedEventArgs e)
-        {
-            this.Frame.Navigate(typeof(Pages.GridViewPage));
-        }
     }
 }

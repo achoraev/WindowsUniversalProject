@@ -57,9 +57,9 @@ namespace UniversalBitak
             }
 #endif
             // for Parse
-            var testObject = new ParseObject("TestItem");
-            testObject["test"] = "wtf";
-            await testObject.SaveAsync();
+            //var testObject = new ParseObject("TestItem");
+            //testObject["test"] = "wtf";
+            //await testObject.SaveAsync();
 
             Frame rootFrame = Window.Current.Content as Frame;
 
