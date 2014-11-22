@@ -1,13 +1,25 @@
 ﻿<Page
-    x:Class="UniversalBitak.Pages.GridViewPage"
+    x:Class="UniversalBitak.Pages.GridViewPage"    
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:UniversalBitak.Pages"
+    xmlns:local="using:UniversalBitak"
+    xmlns:common="using:SDKTemplate.Common" 
+    xmlns:viewModels="using:UniversalBitak.ViewModels"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+    <!--<Page.Resources>
+        <DataTemplate x:Key="StoreFrontTileTemplate">
+            <local:ItemViewer />
+        </DataTemplate>
+    </Page.Resources>-->
+    <!--<Page.DataContext>
+        <viewModels:ItemViewModel>
+            
+        </viewModels:ItemViewModel>
+    </Page.DataContext>-->
     <Grid x:Name="LayoutRoot">
 
         <Grid.ChildrenTransitions>
@@ -22,21 +34,54 @@
         </Grid.RowDefinitions>
 
         <!-- Title Panel -->
-        <StackPanel Grid.Row="0" Margin="0,0,0,0">
+        <StackPanel Grid.Row="0" 
+                    Margin="0,0,0,0.5"
+                    HorizontalAlignment="Left" Width="224">
             <TextBlock Height="50"
             	Text="{ThemeResource AppName}" 
             	Style="{ThemeResource TitleTextBlockStyle}" Margin="10,0,100,0"/>
             <Button Content="Add New Item"                     
                     HorizontalAlignment="Stretch" 
                     VerticalAlignment="Stretch" 
-                    Margin="60,0,60,0"
+                    Margin="60,0,0,0"
                     Click="AddNewItem"/>
         </StackPanel>
 
         <!--TODO: Content should be placed within the following grid-->
-        <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
+        <Grid Grid.Row="1"
+              Name="ItemsGridView">
+            <GridView ItemsSource="{Binding ItemsOfItem}"
+                      DisplayMemberPath="itemName" >
 
+            </GridView>
         </Grid>
+        <Button Content="Log Out" 
+                HorizontalAlignment="Left"
+                Margin="241,50,0,0" 
+                VerticalAlignment="Top"
+                Click="OnLoginOut"/>
+
+        <!--<Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">            
+            <TextBlock x:Name="InputTextBlock1" 
+                       Grid.Row="1"
+                       TextWrapping="Wrap"                       
+                       HorizontalAlignment="Left">                         
+            </TextBlock>
+            <Grid x:Name="Output" 
+                  HorizontalAlignment="Left" 
+                  VerticalAlignment="Top" 
+                  Grid.Row="2">                
+                <GridView x:Name="ItemGridView2" 
+                  ItemsSource="{Binding ItemsOfItem}"
+                  Background="{StaticResource ApplicationPageBackgroundThemeBrush}" 
+                  ItemTemplate="{StaticResource StoreFrontTileTemplate}"                   
+                  ShowsScrollingPlaceholders="False"                    
+                  VerticalAlignment="Stretch" 
+                  ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                  ScrollViewer.HorizontalScrollBarVisibility="Auto" 
+                  IsItemClickEnabled="True" ItemClick="ItemClickHandler"/>
+            </Grid>
+        </Grid>-->
 
     </Grid>
 </Page>

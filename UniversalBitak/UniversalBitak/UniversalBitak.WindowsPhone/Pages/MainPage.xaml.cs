@@ -1,7 +1,6 @@
 ﻿// The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 namespace UniversalBitak.Pages
-{
-    using Parse;
+{    
     using System;
     using System.Collections;
     using System.Collections.Generic;
@@ -27,52 +26,19 @@ namespace UniversalBitak.Pages
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
     public sealed partial class MainPage : Page
-    {
+    {        
         private NavigationHelper navigationHelper;
-        private ObservableDictionary defaultViewModel = new ObservableDictionary();
+
+        private ObservableDictionary defaultViewModel = new ObservableDictionary();        
 
         public MainPage()
         {
-            this.InitializeComponent();
-
-            //GetParseObjects();            
-
+            this.InitializeComponent();                                 
+                     
             this.navigationHelper = new NavigationHelper(this);
             this.navigationHelper.LoadState += this.NavigationHelper_LoadState;
             this.navigationHelper.SaveState += this.NavigationHelper_SaveState;
-        }
-
-        private async void GetParseObjects()
-        {            
-            var allItems = ParseObject.GetQuery("Item");
-            IEnumerable<ParseObject> results = await allItems.FindAsync();
-
-            List<Item> items = ConvertFromParseObject(results);
-
-            
-            //var anotherApplication = new ParseObject("Item");
-            //var applicantResumeFile = anotherApplication.Get<ParseFile>("imac");
-            //Byte[] resumeText = await new HttpClient().GetByteArrayAsync(applicantResumeFile.Url);
-        }
-
-        private List<Item> ConvertFromParseObject(IEnumerable<ParseObject> input)
-        {
-            var items = new List<Item>();
-
-            foreach (var item in input)
-            {
-                items.Add(new Item
-                {
-                    itemName = item["itemName"].ToString(),
-                    itemCategory = item["itemCategory"].ToString(),
-                    itemDescription = item["itemDescription"].ToString(),
-                    url = item.Get<ParseFile>("itemPicture").Url,
-                    //itemPrice = item.Get<Decimal>("itemPrice")                                   
-                });
-            }
-
-            return items;
-        }
+        }        
 
         /// <summary>
         /// Gets the <see cref="NavigationHelper"/> associated with this <see cref="Page"/>.

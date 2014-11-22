@@ -15,6 +15,11 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using UniversalBitak.Models;
+using Windows.UI.Popups;
+using Parse;
+using UniversalBitak.ViewModels;
+using System.Threading.Tasks;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -25,17 +30,49 @@ namespace UniversalBitak.Pages
     /// </summary>
     public sealed partial class GridViewPage : Page
     {
+        public IEnumerable<ParseObject> ParseItems;
+
+        public List<Item> GridViewItems;    
+
         private NavigationHelper navigationHelper;
+
         private ObservableDictionary defaultViewModel = new ObservableDictionary();
 
         public GridViewPage()
         {
-            this.InitializeComponent();
+            GridViewItems = new List<Item>();
+            GetParseObjects();     
+
+            this.InitializeComponent();            
 
             this.navigationHelper = new NavigationHelper(this);
             this.navigationHelper.LoadState += this.NavigationHelper_LoadState;
-            this.navigationHelper.SaveState += this.NavigationHelper_SaveState;
+            this.navigationHelper.SaveState += this.NavigationHelper_SaveState;                                         
         }
+
+        private async void GetParseObjects()
+        {
+            var allItems = ParseObject.GetQuery("Item");
+            ParseItems = await allItems.FindAsync();
+
+            foreach (var item in ParseItems)
+            {
+                this.GridViewItems.Add(new Item
+                {
+                    itemName = item["itemName"].ToString(),
+                    itemCategory = item["itemCategory"].ToString(),
+                    itemDescription = item["itemDescription"].ToString(),
+                    url = item.Get<ParseFile>("itemPicture").Url,
+                    itemPrice = item.Get<Double>("itemPrice")                                   
+                });
+            }
+
+            var viewModel = new ItemViewModel("list");
+            
+            viewModel.ItemsOfItem = GridViewItems;
+
+            ItemsGridView.DataContext = viewModel;
+        }        
 
         /// <summary>
         /// Gets the <see cref="NavigationHelper"/> associated with this <see cref="Page"/>.
@@ -110,8 +147,40 @@ namespace UniversalBitak.Pages
 
         private void AddNewItem(object sender, RoutedEventArgs e)
         {
-            // todo change to newItemPage
-            this.Frame.Navigate(typeof(Pages.LoginPage));
+            if (ParseUser.CurrentUser != null)
+            {
+                this.Frame.Navigate(typeof(Pages.NewItemPage));
+            }
+            else
+            {
+                this.Frame.Navigate(typeof(Pages.LoginPage));
+            }                
+        }
+
+        private void ItemClickHandler(object sender, ItemClickEventArgs e)
+        {
+            Item _item = e.ClickedItem as Item;
+            ShowMessageBox(String.Format("Clicked flavor of {0} is: ", _item.itemCategory), _item.itemName);
+        }
+
+        private void ShowMessageBox(string message, string title)
+        {
+            MessageDialog msgDialog = new MessageDialog(message, title);
+
+            //OK Button
+            UICommand okBtn = new UICommand("OK");
+            msgDialog.Commands.Add(okBtn);
+
+            //Cancel Button
+            //UICommand cancelBtn = new UICommand("Cancel");           
+            //msgDialog.Commands.Add(cancelBtn);
+
+            msgDialog.ShowAsync();
+        }
+
+        private void OnLoginOut(object sender, RoutedEventArgs e)
+        {
+            ParseUser.LogOut();
         }
     }
 }

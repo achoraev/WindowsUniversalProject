@@ -8,7 +8,7 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid x:Name="LayoutRoot">
+    <Grid x:Name="LayoutRoot" Background="{StaticResource logoBack}">
 
         <Grid.ChildrenTransitions>
             <TransitionCollection>
@@ -27,13 +27,15 @@
         </StackPanel>
 
         <!--TODO: Content should be placed within the following grid-->
-        <Image HorizontalAlignment="Left"
+        <!--<Image HorizontalAlignment="Left"
                Name="logo"
+               Source="/Images/logo.png"
+               Stretch="Fill"
                Height="211"
                Margin="97,54,0,0" 
                Grid.Row="1" 
                VerticalAlignment="Top" 
-               Width="220"/>
+               Width="220"/>-->
         <Button Content="Enter"
                 Name="EnterBtn"
                 Grid.Row="1" 

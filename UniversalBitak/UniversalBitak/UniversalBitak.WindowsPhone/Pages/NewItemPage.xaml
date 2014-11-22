@@ -24,12 +24,90 @@
         <!-- Title Panel -->
         <StackPanel Grid.Row="0" Margin="19,0,0,0">
             <TextBlock Text="{ThemeResource AppName}" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
-            <TextBlock Text="new item" Margin="0,0,0,26.5" Style="{ThemeResource HeaderTextBlockStyle}" CharacterSpacing="{ThemeResource PivotHeaderItemCharacterSpacing}"/>
         </StackPanel>
 
         <!--TODO: Content should be placed within the following grid-->
-        <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
+        <Grid x:Name="ContentRoot" Margin="19,35,19,10" Grid.RowSpan="2">
+            <TextBlock HorizontalAlignment="Left" 
+                       Name="Label"
+                       FontSize="30"
+                       Margin="10,15,0,0" 
+                       TextWrapping="Wrap" 
+                       Text="Add new item"
+                       TextAlignment="Center"
+                       VerticalAlignment="Top" 
+                       Width="342"/>
 
+            <TextBlock HorizontalAlignment="Left" 
+                       Margin="19,50,0,0" 
+                       TextWrapping="Wrap"
+                       Text="Item Name"
+                       FontSize="25"
+                       VerticalAlignment="Top" 
+                       Width="255"/>
+            <TextBox HorizontalAlignment="Left" 
+                     Name="ItemName"
+                     Margin="19,80,0,0" 
+                     TextWrapping="Wrap"
+                     PlaceholderText="Item name" 
+                     VerticalAlignment="Top"
+                     Width="320"/>
+
+            <TextBlock HorizontalAlignment="Left" 
+                       Margin="19,120,0,0" 
+                       TextWrapping="Wrap"
+                       Text="Item Description"
+                       FontSize="25"
+                       VerticalAlignment="Top" 
+                       Width="255"/>
+            <TextBox HorizontalAlignment="Left" 
+                     Margin="19,150,0,0" 
+                     Name="ItemDescription"
+                     TextWrapping="Wrap"
+                     PlaceholderText="Item Description" 
+                     VerticalAlignment="Top"
+                     Width="320"/>
+
+            <TextBlock HorizontalAlignment="Left" 
+                       Margin="19,190,0,0" 
+                       TextWrapping="Wrap"
+                       Text="Item Category"
+                       FontSize="25"
+                       VerticalAlignment="Top" 
+                       Width="255"/>
+            <TextBox HorizontalAlignment="Left" 
+                     Margin="19,220,0,0" 
+                     Name="ItemCategory"
+                     TextWrapping="Wrap"
+                     PlaceholderText="Item Category" 
+                     VerticalAlignment="Top"
+                     Width="320"/>
+
+            <TextBlock HorizontalAlignment="Left" 
+                       Margin="19,260,0,0" 
+                       TextWrapping="Wrap"
+                       Text="Item Price"
+                       FontSize="25"
+                       VerticalAlignment="Top" 
+                       Width="255"/>
+            <TextBox HorizontalAlignment="Left" 
+                     Margin="19,290,0,0" 
+                     Name="ItemPrice"
+                     TextWrapping="Wrap"
+                     PlaceholderText="Item Price" 
+                     VerticalAlignment="Top"
+                     Width="320"/>
+
+            <Button Content="Add Picture"
+                    Margin="80,280,0,150" 
+                    Width="194"
+                    Click="AddPicture">
+            </Button>
+            <Button Content="Add Item"
+                    Margin="80,370,0,150" 
+                    Width="194"
+                    Click="AddNewItem">
+            </Button>
         </Grid>
     </Grid>
 </Page>

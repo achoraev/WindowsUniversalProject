@@ -18,8 +18,6 @@
 
         public Uri url { get; set; }
 
-        //public PFFile itemPicture { get; set; }
-
-        public decimal itemPrice { get; set; } 
+        public double itemPrice { get; set; } 
     }
 }

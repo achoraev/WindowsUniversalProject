@@ -15,6 +15,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Parse;
+using UniversalBitak.Models;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -107,5 +109,24 @@ namespace UniversalBitak.Pages
         }
 
         #endregion
+
+        private void AddPicture(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private async void AddNewItem(object sender, RoutedEventArgs e)
+        {            
+            ParseObject newParseItem = new ParseObject("Item");
+            newParseItem["itemName"] = ItemName.Text;
+            newParseItem["itemDescription"] = ItemDescription.Text;
+            newParseItem["itemCategory"] = ItemCategory.Text;
+            newParseItem["itemPrice"] = double.Parse(ItemPrice.Text);
+            // newParseItem["itemPicture"] = null;
+            newParseItem["state"] = true;
+            newParseItem["user"] = ParseUser.CurrentUser.Username;
+
+            await newParseItem.SaveAsync();
+        }
     }
 }
