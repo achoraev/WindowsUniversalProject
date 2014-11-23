@@ -39,40 +39,47 @@ namespace UniversalBitak.Pages
         private ObservableDictionary defaultViewModel = new ObservableDictionary();
 
         public GridViewPage()
+           :this(new GridViewPageViewModel())
         {
-            GridViewItems = new List<Item>();
-            GetParseObjects();     
+        }
+
+        public GridViewPage(GridViewPageViewModel viewModel)
+        {
+            //GridViewItems = new List<Item>();
+            //GetParseObjects();     
 
             this.InitializeComponent();            
 
             this.navigationHelper = new NavigationHelper(this);
             this.navigationHelper.LoadState += this.NavigationHelper_LoadState;
-            this.navigationHelper.SaveState += this.NavigationHelper_SaveState;                                         
+            this.navigationHelper.SaveState += this.NavigationHelper_SaveState;
+
+            this.DataContext = viewModel;               
         }
 
-        private async void GetParseObjects()
-        {
-            var allItems = ParseObject.GetQuery("Item");
-            ParseItems = await allItems.FindAsync();
+        //private async void GetParseObjects()
+        //{
+        //    var allItems = ParseObject.GetQuery("Item");
+        //    ParseItems = await allItems.FindAsync();
 
-            foreach (var item in ParseItems)
-            {
-                this.GridViewItems.Add(new Item
-                {
-                    itemName = item["itemName"].ToString(),
-                    itemCategory = item["itemCategory"].ToString(),
-                    itemDescription = item["itemDescription"].ToString(),
-                    url = item.Get<ParseFile>("itemPicture").Url,
-                    itemPrice = item.Get<Double>("itemPrice")                                   
-                });
-            }
+        //    foreach (var item in ParseItems)
+        //    {
+        //        this.GridViewItems.Add(new Item
+        //        {
+        //            itemName = item["itemName"].ToString(),
+        //            itemCategory = item["itemCategory"].ToString(),
+        //            itemDescription = item["itemDescription"].ToString(),
+        //            url = item.Get<ParseFile>("itemPicture").Url,
+        //            itemPrice = item.Get<Double>("itemPrice")                                   
+        //        });
+        //    }
 
-            var viewModel = new ItemViewModel("list");
+        //    var viewModel = new ItemViewModel("list");
             
-            viewModel.ItemsOfItem = GridViewItems;
+        //    viewModel.ItemsOfItem = GridViewItems;
 
-            ItemsGridView.DataContext = viewModel;
-        }        
+        //    //ItemsGridView.DataContext = viewModel;
+        //}        
 
         /// <summary>
         /// Gets the <see cref="NavigationHelper"/> associated with this <see cref="Page"/>.
@@ -181,6 +188,11 @@ namespace UniversalBitak.Pages
         private void OnLoginOut(object sender, RoutedEventArgs e)
         {
             ParseUser.LogOut();
+        }
+
+        private void OnItemListViewSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }

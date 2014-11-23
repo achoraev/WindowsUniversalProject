@@ -8,16 +8,44 @@
     [ParseClassName("Item")]
     public class Item: ParseObject
     {
-        public string itemName { get; set; }
+        [ParseFieldName("itemName")]
+        public string itemName 
+        { 
+            get { return GetProperty<string>(); }
+            set { SetProperty<string>(value); }
+        }
 
-        public string itemDescription { get; set; }
+        [ParseFieldName("itemDescription")]
+        public string itemDescription
+        {
+            get { return GetProperty<string>(); }
+            set { SetProperty<string>(value); }
+        }
 
-        public string itemCategory { get; set; }
+        [ParseFieldName("itemCategory")]
+        public string itemCategory
+        {
+            get { return GetProperty<string>(); }
+            set { SetProperty<string>(value); }
+        }
+        [ParseFieldName("user")]
+        public string user
+        {
+            get { return GetProperty<string>(); }
+            set { SetProperty<string>(value); }
+        }
+        [ParseFieldName("url")]
+        public Uri url
+        {
+            get { return GetProperty<Uri>(); }
+            set { SetProperty<Uri>(value); }
+        }
 
-        public string user { get; set; }
-
-        public Uri url { get; set; }
-
-        public double itemPrice { get; set; } 
+        [ParseFieldName("itemPrice")]
+        public double itemPrice
+        {
+            get { return GetProperty<double>(); }
+            set { SetProperty<double>(value); }
+        }
     }
 }

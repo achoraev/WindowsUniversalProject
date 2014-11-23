@@ -17,6 +17,7 @@ using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using Parse;
 using UniversalBitak.Pages;
+using UniversalBitak.Models;
 
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=234227
 
@@ -39,6 +40,8 @@ namespace UniversalBitak
         {
             this.InitializeComponent();
             this.Suspending += this.OnSuspending;
+
+            ParseObject.RegisterSubclass<Item>();
 
             ParseClient.Initialize("ejNkb1Mxd2BVEoVGITwFYuFAZKHkFRa7FS59BWgz", "G0FAF4yNBOuvSyQPxLLHFjrxygk1FvmkGLXYAZE5");
         }
