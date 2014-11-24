@@ -23,13 +23,16 @@
 
         <!-- Title Panel -->
         <StackPanel Grid.Row="0" Margin="19,0,0,0">
-            <TextBlock Text="{ThemeResource AppName}" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
-            <TextBlock Text="Details" Margin="0,0,0,26.5" Style="{ThemeResource HeaderTextBlockStyle}" CharacterSpacing="{ThemeResource PivotHeaderItemCharacterSpacing}"/>
+            <TextBlock Text="{ThemeResource AppName}" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>            
         </StackPanel>
 
         <!--TODO: Content should be placed within the following grid-->
         <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
-
+            <StackPanel DataContext="{Binding Item}">
+                <TextBlock Text="{Binding itemName}" />
+                <TextBlock Text="{Binding itemDescription}" />
+                <TextBlock Text="{Binding itemCategory}" />
+            </StackPanel>
         </Grid>
     </Grid>
 </Page>

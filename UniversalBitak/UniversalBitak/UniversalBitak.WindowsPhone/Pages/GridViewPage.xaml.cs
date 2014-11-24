@@ -185,7 +185,9 @@ namespace UniversalBitak.Pages
 
         private void OnItemListViewSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            // todo go to details
+            var itemListView = (sender as ListView);
+            var selectedObject = itemListView.SelectedItem;
+            this.Frame.Navigate(typeof(DetailsPage), selectedObject);
         }
     }
 }
