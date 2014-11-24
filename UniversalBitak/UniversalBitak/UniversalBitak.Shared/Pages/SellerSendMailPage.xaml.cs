@@ -1,30 +1,41 @@
-﻿// The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
+﻿using UniversalBitak.Common;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.Foundation;
+using Windows.Foundation.Collections;
+using Windows.Graphics.Display;
+using Windows.UI.ViewManagement;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Navigation;
+using UniversalBitak.ViewModels;
+
+// The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
 namespace UniversalBitak.Pages
 {
-    using UniversalBitak.Common;
-    using System;
-    using Windows.UI.Xaml.Controls;
-    using Windows.UI.Xaml.Navigation;
-    using UniversalBitak.ViewModels;
-    using Windows.UI.Xaml;
-
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class DetailsPage : Page
+    public sealed partial class SellerSendMailPage : Page
     {
         private NavigationHelper navigationHelper;
 
         private ObservableDictionary defaultViewModel = new ObservableDictionary();
 
-        public DetailsPage()
-            :this(new ItemDetailsPageViewModel())
+        public SellerSendMailPage()
+            :this(new SellerSendViewModel())
         {
-
         }
 
-        public DetailsPage(ItemDetailsPageViewModel viewModel)
+        public SellerSendMailPage(SellerSendViewModel viewModel)
         {
             this.InitializeComponent();
 
@@ -100,18 +111,11 @@ namespace UniversalBitak.Pages
             this.navigationHelper.OnNavigatedTo(e);
         }
 
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
-            this.navigationHelper.OnNavigatedFrom(e);
-        }
-
-        #endregion
-
-        public ItemDetailsPageViewModel ViewModel
+        public SellerSendViewModel ViewModel
         {
             get
             {
-                return (ItemDetailsPageViewModel)this.DataContext;
+                return (SellerSendViewModel)this.DataContext;
             }
             set
             {
@@ -119,17 +123,11 @@ namespace UniversalBitak.Pages
             }
         }
 
-        private void OnSendMsgBtnClick(object sender, RoutedEventArgs e)
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-
-
-            this.Frame.Navigate(typeof(SellerSendMailPage));
+            this.navigationHelper.OnNavigatedFrom(e);
         }
 
-        private void OnBuyBtnClick(object sender, RoutedEventArgs e)
-        {
-
-            this.Frame.Navigate(typeof(UserBasketPage));
-        }
+        #endregion
     }
 }

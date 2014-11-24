@@ -1,10 +1,11 @@
 ﻿<Page
-    x:Class="UniversalBitak.Pages.NewItemPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:UniversalBitak.Pages"
+    xmlns:local="using:UniversalBitak.Pages"    
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"    
+    xmlns:maps="clr-namespace:Microsoft.Phone.Maps.Controls;assembly=Microsoft.Phone.Maps"    
+    x:Class="UniversalBitak.Pages.NewItemPage"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -26,88 +27,62 @@
             <TextBlock Text="{ThemeResource AppName}" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
         </StackPanel>
 
-        <!--TODO: Content should be placed within the following grid-->
         <Grid x:Name="ContentRoot" Margin="19,35,19,10" Grid.RowSpan="2">
             <TextBlock HorizontalAlignment="Left" 
-                       Name="Label"
-                       FontSize="30"
-                       Margin="10,15,0,0" 
-                       TextWrapping="Wrap" 
-                       Text="Add new item"
-                       TextAlignment="Center"
-                       VerticalAlignment="Top" 
-                       Width="342"/>
+				x:Name="Label"
+				FontSize="30"
+				Margin="10,15,0,0" 
+				TextWrapping="Wrap" 
+				Text="Add new item"
+				TextAlignment="Center"
+				VerticalAlignment="Top" 
+				Width="342"/>
 
-            <TextBlock HorizontalAlignment="Left" 
-                       Margin="19,50,0,0" 
-                       TextWrapping="Wrap"
-                       Text="Item Name"
-                       FontSize="25"
-                       VerticalAlignment="Top" 
-                       Width="255"/>
             <TextBox HorizontalAlignment="Left" 
-                     Name="ItemName"
-                     Margin="19,80,0,0" 
-                     TextWrapping="Wrap"
-                     PlaceholderText="Item name" 
-                     VerticalAlignment="Top"
-                     Width="320"/>
+				x:Name="ItemName"
+				Margin="19,60,0,0" 
+				TextWrapping="Wrap"
+				PlaceholderText="Item name" 
+				VerticalAlignment="Top"
+				Width="320"/>
 
-            <TextBlock HorizontalAlignment="Left" 
-                       Margin="19,120,0,0" 
-                       TextWrapping="Wrap"
-                       Text="Item Description"
-                       FontSize="25"
-                       VerticalAlignment="Top" 
-                       Width="255"/>
             <TextBox HorizontalAlignment="Left" 
-                     Margin="19,150,0,0" 
-                     Name="ItemDescription"
-                     TextWrapping="Wrap"
-                     PlaceholderText="Item Description" 
-                     VerticalAlignment="Top"
-                     Width="320"/>
+				Margin="19,120,0,0" 
+				x:Name="ItemDescription"
+				TextWrapping="Wrap"
+				PlaceholderText="Item Description" 
+				VerticalAlignment="Top"
+				Width="320"/>
 
-            <TextBlock HorizontalAlignment="Left" 
-                       Margin="19,190,0,0" 
-                       TextWrapping="Wrap"
-                       Text="Item Category"
-                       FontSize="25"
-                       VerticalAlignment="Top" 
-                       Width="255"/>
             <TextBox HorizontalAlignment="Left" 
-                     Margin="19,220,0,0" 
-                     Name="ItemCategory"
-                     TextWrapping="Wrap"
-                     PlaceholderText="Item Category" 
-                     VerticalAlignment="Top"
-                     Width="320"/>
+				Margin="19,180,0,0" 
+				x:Name="ItemCategory"
+				TextWrapping="Wrap"
+				PlaceholderText="Item Category" 
+				VerticalAlignment="Top"
+				Width="320"/>
 
-            <TextBlock HorizontalAlignment="Left" 
-                       Margin="19,260,0,0" 
-                       TextWrapping="Wrap"
-                       Text="Item Price"
-                       FontSize="25"
-                       VerticalAlignment="Top" 
-                       Width="255"/>
             <TextBox HorizontalAlignment="Left" 
-                     Margin="19,290,0,0" 
-                     Name="ItemPrice"
-                     TextWrapping="Wrap"
-                     PlaceholderText="Item Price" 
-                     VerticalAlignment="Top"
-                     Width="320"/>
-
+				Margin="19,240,0,0" 
+				x:Name="ItemPrice"
+				TextWrapping="Wrap"
+				PlaceholderText="Item Price" 
+				VerticalAlignment="Top"
+				Width="320"/>
+            
             <Button Content="Add Picture"
-                    Margin="80,280,0,150" 
-                    Width="194"
-                    Click="AddPicture">
-            </Button>
+				Margin="65,407,0,131" 
+				Width="230"
+				Click="AddPicture"/>
             <Button Content="Add Item"
-                    Margin="80,370,0,150" 
-                    Width="194"
-                    Click="AddNewItem">
-            </Button>
+				Margin="65,463,0,75" 
+				Width="230"
+				Click="AddNewItem"/>
+            <!--<maps:Map x:Name="sampleMap" LandmarksEnabled="False" Loaded="sampleMap_Loaded"/>-->
+            <!--<Maps:MapControl HorizontalAlignment="Left" 
+                             Margin="36,283,0,0" VerticalAlignment="Top" 
+                             RenderTransformOrigin="-0.199,0.124" Height="129"/>-->
+
         </Grid>
     </Grid>
 </Page>

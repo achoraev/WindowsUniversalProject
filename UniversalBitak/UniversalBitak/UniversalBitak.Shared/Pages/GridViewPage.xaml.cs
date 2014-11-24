@@ -43,15 +43,11 @@ namespace UniversalBitak.Pages
         {            
             this.InitializeComponent();
 
-            this.spinner.IsActive = true;
-
             this.navigationHelper = new NavigationHelper(this);
             this.navigationHelper.LoadState += this.NavigationHelper_LoadState;
             this.navigationHelper.SaveState += this.NavigationHelper_SaveState;
 
             this.DataContext = viewModel;
-
-            this.spinner.IsActive = false; 
         }        
 
         /// <summary>

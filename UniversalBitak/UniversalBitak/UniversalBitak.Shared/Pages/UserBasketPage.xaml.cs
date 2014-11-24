@@ -1,38 +1,40 @@
-﻿// The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
+﻿using UniversalBitak.Common;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.Foundation;
+using Windows.Foundation.Collections;
+using Windows.Graphics.Display;
+using Windows.UI.ViewManagement;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Navigation;
+
+// The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
 namespace UniversalBitak.Pages
 {
-    using UniversalBitak.Common;
-    using System;
-    using Windows.UI.Xaml.Controls;
-    using Windows.UI.Xaml.Navigation;
-    using UniversalBitak.ViewModels;
-    using Windows.UI.Xaml;
-
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class DetailsPage : Page
+    public sealed partial class UserBasketPage : Page
     {
         private NavigationHelper navigationHelper;
-
         private ObservableDictionary defaultViewModel = new ObservableDictionary();
 
-        public DetailsPage()
-            :this(new ItemDetailsPageViewModel())
-        {
-
-        }
-
-        public DetailsPage(ItemDetailsPageViewModel viewModel)
+        public UserBasketPage()
         {
             this.InitializeComponent();
 
             this.navigationHelper = new NavigationHelper(this);
             this.navigationHelper.LoadState += this.NavigationHelper_LoadState;
             this.navigationHelper.SaveState += this.NavigationHelper_SaveState;
-
-            this.ViewModel = viewModel;
         }
 
         /// <summary>
@@ -96,7 +98,6 @@ namespace UniversalBitak.Pages
         /// handlers that cannot cancel the navigation request.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            this.ViewModel.Item = e.Parameter as ItemViewModel;
             this.navigationHelper.OnNavigatedTo(e);
         }
 
@@ -106,30 +107,5 @@ namespace UniversalBitak.Pages
         }
 
         #endregion
-
-        public ItemDetailsPageViewModel ViewModel
-        {
-            get
-            {
-                return (ItemDetailsPageViewModel)this.DataContext;
-            }
-            set
-            {
-                this.DataContext = value;
-            }
-        }
-
-        private void OnSendMsgBtnClick(object sender, RoutedEventArgs e)
-        {
-
-
-            this.Frame.Navigate(typeof(SellerSendMailPage));
-        }
-
-        private void OnBuyBtnClick(object sender, RoutedEventArgs e)
-        {
-
-            this.Frame.Navigate(typeof(UserBasketPage));
-        }
     }
 }

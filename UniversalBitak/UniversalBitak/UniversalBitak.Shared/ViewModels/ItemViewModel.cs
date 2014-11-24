@@ -23,7 +23,8 @@
                     itemDescription = model.itemDescription,
                     itemCategory = model.itemCategory,
                     itemPrice = model.itemPrice,
-                    itemPicture = model.itemPicture
+                    itemPicture = model.itemPicture,
+                    user = model.user
                 };
             }
         }     
@@ -48,5 +49,7 @@
         public ParseFile itemPicture { get; set; }
 
         public string itemCategory { get; set; }
+
+        public string user { get; set; }
     }
 }

@@ -3,27 +3,16 @@ namespace UniversalBitak.Pages
 {
     using SQLite;
     using System;
-    using System.Collections;
     using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using System.Net.Http;
-    using System.Runtime.InteropServices.WindowsRuntime;
     using System.Threading.Tasks;
     using UniversalBitak.Common;
     using UniversalBitak.Models;
     using Windows.Foundation;
-    using Windows.Foundation.Collections;
-    using Windows.Graphics.Display;
     using Windows.Storage;
     using Windows.UI.Popups;
-    using Windows.UI.ViewManagement;
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
-    using Windows.UI.Xaml.Controls.Primitives;
-    using Windows.UI.Xaml.Data;
     using Windows.UI.Xaml.Input;
-    using Windows.UI.Xaml.Media;
     using Windows.UI.Xaml.Navigation;
 
     /// <summary>
@@ -116,13 +105,8 @@ namespace UniversalBitak.Pages
             if (!dbExists)
             {
                 await CreateDatabaseAsync();
-                await AddItemsAsync();
-                ShowMessageBox("Sql database created!", "Alert");
-            }
-            else
-            {
-                ShowMessageBox("Sql database exists!", "Alert");
-            }
+                await AddItemsAsync();                
+            }            
 
             // Get Items
             SQLiteAsyncConnection conn = new SQLiteAsyncConnection(dbName);
@@ -143,21 +127,7 @@ namespace UniversalBitak.Pages
         private void ToGridViewPage(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(Pages.GridViewPage));
-        }
-
-        private void ShowMessageBox(string message, string title)
-        {
-            MessageDialog msgDialog = new MessageDialog(message, title);
-
-            UICommand okBtn = new UICommand("OK");
-            msgDialog.Commands.Add(okBtn);
-
-            //Cancel Button
-            //UICommand cancelBtn = new UICommand("Cancel");           
-            //msgDialog.Commands.Add(cancelBtn);
-
-            msgDialog.ShowAsync();
-        }
+        }        
 
         #region SQLite utils
         private async Task<bool> CheckDbAsync(string dbName)

@@ -27,11 +27,13 @@
 
         <!-- Title Panel -->
         <StackPanel Grid.Row="0" Margin="19,0,0,0">
-            <TextBlock Text="{ThemeResource AppName}" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
+            <TextBlock Text="{ThemeResource AppName}" 
+                       HorizontalAlignment="Center"
+                       Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
         </StackPanel>
 
         <!--TODO: Content should be placed within the following grid-->
-        <!--<Image HorizontalAlignment="Left"
+        <Image HorizontalAlignment="Left"
                Name="logo"
                Source="/Images/logo.png"
                Stretch="Fill"
@@ -39,9 +41,11 @@
                Margin="97,54,0,0" 
                Grid.Row="1" 
                VerticalAlignment="Top" 
-               Width="220"/>-->
+               Width="220"/>
         <Button Content="Enter"
-                Name="EnterBtn"
+                Name="EnterBtn"                
+                VerticalAlignment="Center"
+                FontSize="40"
                 Grid.Row="1" 
                 Margin="97,323,0,185" 
                 Width="220" 
