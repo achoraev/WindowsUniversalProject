@@ -120,7 +120,7 @@ namespace UniversalBitak.Pages
             {
                 await ParseUser.LogInAsync(username, password);
                 ShowMessageBox("Successfully logged", "Alert");
-                this.Frame.Navigate(typeof(Pages.DetailsPage));
+                this.Frame.Navigate(typeof(Pages.GridViewPage));
             }
             catch (Exception ex)
             {

@@ -19,6 +19,7 @@ using Parse;
 using UniversalBitak.Models;
 using Windows.Storage.Pickers;
 using Windows.UI.Popups;
+using Windows.Storage;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -125,8 +126,7 @@ namespace UniversalBitak.Pages
 #if WINDOWS_PHONE_APP           
             picker.PickSingleFileAndContinue();
 #elif WINDOWS_APP
-            StorageFile file = await picker.PickSingleFileAsync();
-            DisplayFileName(file);
+            StorageFile file = await picker.PickSingleFileAsync();            
 #endif
         }
 

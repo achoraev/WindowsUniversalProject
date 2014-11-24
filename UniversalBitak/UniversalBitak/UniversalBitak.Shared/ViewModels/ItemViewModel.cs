@@ -9,20 +9,7 @@
     using System.Text;
     using UniversalBitak.Models;
     using UniversalBitak.Pages;
-
-    //public abstract class ViewModelBase : INotifyPropertyChanged
-    //{
-    //    public event PropertyChangedEventHandler PropertyChanged;
-
-    //    protected void OnPropertyChanged(string propertyName)
-    //    {
-    //        if (this.PropertyChanged != null)
-    //        {
-    //            this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-    //        }
-    //    }
-    //}
-
+   
     public class ItemViewModel : ViewModelBase
     {
         private string ItemDescription;
