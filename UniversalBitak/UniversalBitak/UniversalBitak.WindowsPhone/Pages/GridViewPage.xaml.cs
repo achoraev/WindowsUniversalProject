@@ -29,11 +29,7 @@ namespace UniversalBitak.Pages
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
     public sealed partial class GridViewPage : Page
-    {
-        //public IEnumerable<ParseObject> ParseItems;
-
-        //public List<Item> GridViewItems;    
-
+    {          
         private NavigationHelper navigationHelper;
 
         private ObservableDictionary defaultViewModel = new ObservableDictionary();
@@ -44,10 +40,7 @@ namespace UniversalBitak.Pages
         }
 
         public GridViewPage(GridViewPageViewModel viewModel)
-        {
-            //GridViewItems = new List<Item>();
-            //GetParseObjects();     
-
+        {            
             this.InitializeComponent();            
 
             this.navigationHelper = new NavigationHelper(this);

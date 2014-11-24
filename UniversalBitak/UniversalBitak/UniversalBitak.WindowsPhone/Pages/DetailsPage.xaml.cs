@@ -94,6 +94,7 @@ namespace UniversalBitak.Pages
         /// handlers that cannot cancel the navigation request.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            this.ViewModel.Item = e.Parameter as ItemViewModel;
             this.navigationHelper.OnNavigatedTo(e);
         }
 

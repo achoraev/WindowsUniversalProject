@@ -119,12 +119,12 @@ namespace UniversalBitak.Pages
             try
             {
                 await ParseUser.LogInAsync(username, password);
-                ShowMessageBox("Successfully registered", "Alert");
+                ShowMessageBox("Successfully logged", "Alert");
                 this.Frame.Navigate(typeof(Pages.DetailsPage));
             }
             catch (Exception ex)
             {
-                ShowMessageBox("Registration failed", ex.Message.ToString()); 
+                ShowMessageBox("Login failed", ex.Message.ToString()); 
             }                        
         }
 

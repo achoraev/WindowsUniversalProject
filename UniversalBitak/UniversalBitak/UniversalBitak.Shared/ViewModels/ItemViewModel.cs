@@ -34,6 +34,7 @@
                 {
                     itemName = model.itemName,
                     itemDescription = model.itemDescription,
+                    itemCategory = model.itemCategory,
                     itemPrice = model.itemPrice,
                     itemPicture = model.itemPicture
                 };
@@ -58,5 +59,7 @@
         public double itemPrice { get; set; }
 
         public ParseFile itemPicture { get; set; }
+
+        public string itemCategory { get; set; }
     }
 }

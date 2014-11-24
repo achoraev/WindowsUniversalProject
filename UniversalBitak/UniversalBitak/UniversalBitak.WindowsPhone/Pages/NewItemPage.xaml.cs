@@ -17,6 +17,8 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Parse;
 using UniversalBitak.Models;
+using Windows.Storage.Pickers;
+using Windows.UI.Popups;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -109,15 +111,28 @@ namespace UniversalBitak.Pages
         }
 
         #endregion
-
-        private void AddPicture(object sender, RoutedEventArgs e)
+        
+        private async void AddPicture(object sender, RoutedEventArgs e)
         {
+            var picker = new FileOpenPicker
+            {
+                ViewMode = PickerViewMode.Thumbnail,
+                CommitButtonText = "All done",
+                SuggestedStartLocation = PickerLocationId.PicturesLibrary,
+                FileTypeFilter = { ".jpg", ".jpeg", ".png", ".bmp" }
+            };
 
+#if WINDOWS_PHONE_APP           
+            picker.PickSingleFileAndContinue();
+#elif WINDOWS_APP
+            StorageFile file = await picker.PickSingleFileAsync();
+            DisplayFileName(file);
+#endif
         }
 
         private async void AddNewItem(object sender, RoutedEventArgs e)
-        {            
-            ParseObject newParseItem = new ParseObject("Item");
+        {
+            ParseObject newParseItem = ParseObject.Create<Item>();
             newParseItem["itemName"] = ItemName.Text;
             newParseItem["itemDescription"] = ItemDescription.Text;
             newParseItem["itemCategory"] = ItemCategory.Text;
@@ -127,6 +142,24 @@ namespace UniversalBitak.Pages
             newParseItem["user"] = ParseUser.CurrentUser.Username;
 
             await newParseItem.SaveAsync();
+
+            ShowMessageBox("Item added", "Alert");
+            this.Frame.Navigate(typeof(Pages.GridViewPage));
+        }
+
+        private void ShowMessageBox(string message, string title)
+        {
+            MessageDialog msgDialog = new MessageDialog(message, title);
+
+            //OK Button
+            UICommand okBtn = new UICommand("OK");
+            msgDialog.Commands.Add(okBtn);
+
+            //Cancel Button
+            //UICommand cancelBtn = new UICommand("Cancel");           
+            //msgDialog.Commands.Add(cancelBtn);
+
+            msgDialog.ShowAsync();
         }
     }
 }

@@ -7,6 +7,11 @@
                     <ImageBrush x:Key="logoBack" ImageSource="/Images/logo.png" Opacity=".7" Stretch="UniformToFill" />
                     <DataTemplate x:Key="ItemTemplate">
                         <StackPanel Orientation="Horizontal" Margin="10,10,0,0">
+                            <StackPanel.ChildrenTransitions>
+                                <TransitionCollection>
+                                    <EntranceThemeTransition/>
+                                </TransitionCollection>
+                            </StackPanel.ChildrenTransitions>
                             <Image x:Name="image" 
                                    Source="{Binding itemPicture.Url}"
                                      Height="60"
