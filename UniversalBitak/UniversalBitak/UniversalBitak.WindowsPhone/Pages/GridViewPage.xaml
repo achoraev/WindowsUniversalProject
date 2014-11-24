@@ -9,16 +9,6 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <!--<Page.Resources>
-        <DataTemplate x:Key="StoreFrontTileTemplate">
-            <local:ItemViewer />
-        </DataTemplate>
-    </Page.Resources>-->
-    <!--<Page.DataContext>
-        <viewModels:ItemViewModel>
-            
-        </viewModels:ItemViewModel>
-    </Page.DataContext>-->
     <Grid x:Name="LayoutRoot">
 
         <Grid.ChildrenTransitions>
@@ -52,39 +42,13 @@
                 Click="OnLoginOut"/>
 
         <!--TODO: Content should be placed within the following grid-->        
-
         <Grid Grid.Row="1"
               Name="ItemsGridView">
             <ListView ItemsSource="{Binding Items}"
                       ItemTemplate="{StaticResource ItemTemplate}"                       
                       SelectionMode="Single"
                       SelectionChanged="OnItemListViewSelectionChanged" >
-
             </ListView>
         </Grid>
-
-
-        <!--<Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">            
-            <TextBlock x:Name="InputTextBlock1" 
-                       Grid.Row="1"
-                       TextWrapping="Wrap"                       
-                       HorizontalAlignment="Left">                         
-            </TextBlock>
-            <Grid x:Name="Output" 
-                  HorizontalAlignment="Left" 
-                  VerticalAlignment="Top" 
-                  Grid.Row="2">                
-                <GridView x:Name="ItemGridView2" 
-                  ItemsSource="{Binding ItemsOfItem}"
-                  Background="{StaticResource ApplicationPageBackgroundThemeBrush}" 
-                  ItemTemplate="{StaticResource StoreFrontTileTemplate}"                   
-                  ShowsScrollingPlaceholders="False"                    
-                  VerticalAlignment="Stretch" 
-                  ScrollViewer.VerticalScrollBarVisibility="Auto" 
-                  ScrollViewer.HorizontalScrollBarVisibility="Auto" 
-                  IsItemClickEnabled="True" ItemClick="ItemClickHandler"/>
-            </Grid>
-        </Grid>-->
-
     </Grid>
 </Page>

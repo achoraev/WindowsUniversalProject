@@ -32,24 +32,13 @@
             {
                 return model => new ItemViewModel()
                 {
-                    itemDescription = model.itemDescription
-                    //Title = model.Title,
-                    //Description = model.Description,
-                    //Creator = model.Creator,
-                    //EventDate = model.EventDate,
-                    //Category = model.Category
+                    itemName = model.itemName,
+                    itemDescription = model.itemDescription,
+                    itemPrice = model.itemPrice,
+                    itemPicture = model.itemPicture
                 };
             }
-        }
-
-        //private const string DefaultViewModelName = "No name";
-
-        //public List<Item> ItemsOfItem;        
-
-        //public string itemName { get; set; }
-
-        //public string itemCategory { get; set; }
-        
+        }     
 
         public string itemDescription
         {
@@ -62,20 +51,12 @@
                 this.ItemDescription = value;
                 this.RaisePropertyChanged(() => this.itemDescription);
             }
-        }
-        //public Uri url { get; set; }
+        }        
 
-        //// public decimal itemPrice { get; set; }
+        public string itemName { get; set; }
 
-        //public ItemViewModel() :
-        //    this(DefaultViewModelName)
-        //{
-        //}
+        public double itemPrice { get; set; }
 
-        //public ItemViewModel(string itemName)
-        //{
-        //    this.itemName = itemName;
-        //    //this.itemDescription = itemDescription;               
-        //}        
+        public Uri itemPicture { get; set; }
     }
 }

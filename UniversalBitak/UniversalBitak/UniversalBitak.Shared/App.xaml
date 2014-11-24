@@ -6,10 +6,35 @@
                     <x:String x:Key="AppName">UniversalBitak</x:String>
                     <ImageBrush x:Key="logoBack" ImageSource="/Images/logo.png" Opacity=".7" Stretch="UniformToFill" />
                     <DataTemplate x:Key="ItemTemplate">
-                        <StackPanel>
-                            <TextBlock Text="{Binding itemDescription}"
-                           FontSize="30"/>
-                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="10,10,0,0">
+                            <Image x:Name="image" 
+                                   Source="{Binding itemPicture}"
+                                     Height="60"
+                                     Width="60"
+                                     VerticalAlignment="Center" 
+                                     Margin="0,0,10,0"/>
+                            <StackPanel Margin="0,0,0,0" Orientation="Vertical">
+                                <TextBlock  Text="{Binding itemName}"
+                                            TextWrapping="Wrap" 
+                                            Foreground="{StaticResource ApplicationForegroundThemeBrush}"
+                                            FontSize="14.667" 
+                                            FontWeight="Light"
+                                            Width="200" 
+                                            VerticalAlignment="Center" 
+                                            HorizontalAlignment="Left"
+                                            FontFamily="Segoe UI"/>
+                                <TextBlock Text="{Binding itemDescription}"
+                                           TextWrapping="Wrap"
+                                           Foreground="{StaticResource ApplicationForegroundThemeBrush}"
+                                           FontSize="14.667"
+                                           FontWeight="Light" 
+                                           Width="200" 
+                                           MaxHeight="20"
+                                           VerticalAlignment="Center" 
+                                           HorizontalAlignment="Left"/>
+                                <TextBlock Text="{Binding itemPrice}" />
+                            </StackPanel>
+                        </StackPanel>                        
                     </DataTemplate>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>

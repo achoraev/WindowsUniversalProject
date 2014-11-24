@@ -30,9 +30,9 @@ namespace UniversalBitak.Pages
     /// </summary>
     public sealed partial class GridViewPage : Page
     {
-        public IEnumerable<ParseObject> ParseItems;
+        //public IEnumerable<ParseObject> ParseItems;
 
-        public List<Item> GridViewItems;    
+        //public List<Item> GridViewItems;    
 
         private NavigationHelper navigationHelper;
 
@@ -164,17 +164,10 @@ namespace UniversalBitak.Pages
             }                
         }
 
-        private void ItemClickHandler(object sender, ItemClickEventArgs e)
-        {
-            Item _item = e.ClickedItem as Item;
-            ShowMessageBox(String.Format("Clicked flavor of {0} is: ", _item.itemCategory), _item.itemName);
-        }
-
         private void ShowMessageBox(string message, string title)
         {
             MessageDialog msgDialog = new MessageDialog(message, title);
 
-            //OK Button
             UICommand okBtn = new UICommand("OK");
             msgDialog.Commands.Add(okBtn);
 
@@ -192,7 +185,7 @@ namespace UniversalBitak.Pages
 
         private void OnItemListViewSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            // todo go to details
         }
     }
 }

@@ -34,8 +34,8 @@
             get { return GetProperty<string>(); }
             set { SetProperty<string>(value); }
         }
-        [ParseFieldName("url")]
-        public Uri url
+        [ParseFieldName("itemPicture")]
+        public Uri itemPicture
         {
             get { return GetProperty<Uri>(); }
             set { SetProperty<Uri>(value); }
