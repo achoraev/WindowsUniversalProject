@@ -1,6 +1,7 @@
 ﻿// The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 namespace UniversalBitak.Pages
-{    
+{
+    using SQLite;
     using System;
     using System.Collections;
     using System.Collections.Generic;
@@ -8,11 +9,13 @@ namespace UniversalBitak.Pages
     using System.Linq;
     using System.Net.Http;
     using System.Runtime.InteropServices.WindowsRuntime;
+    using System.Threading.Tasks;
     using UniversalBitak.Common;
     using UniversalBitak.Models;
     using Windows.Foundation;
     using Windows.Foundation.Collections;
     using Windows.Graphics.Display;
+    using Windows.Storage;
     using Windows.UI.ViewManagement;
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
@@ -26,7 +29,11 @@ namespace UniversalBitak.Pages
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
     public sealed partial class MainPage : Page
-    {        
+    {
+        private const string dbName = "ItemsDatabase.db";
+
+        public List<Item> items { get; set; }
+
         private NavigationHelper navigationHelper;
 
         private ObservableDictionary defaultViewModel = new ObservableDictionary();        
@@ -99,9 +106,23 @@ namespace UniversalBitak.Pages
         /// </summary>
         /// <param name="e">Provides data for navigation methods and event
         /// handlers that cannot cancel the navigation request.</param>
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
-            this.navigationHelper.OnNavigatedTo(e);
+            // Create Db if not exist
+            bool dbExists = await CheckDbAsync(dbName);
+            if (!dbExists)
+            {
+                await CreateDatabaseAsync();
+                //await AddArticlesAsync();
+            }
+
+            // Get Articles
+            SQLiteAsyncConnection conn = new SQLiteAsyncConnection(dbName);
+            var query = conn.Table<Item>();
+            items = await query.ToListAsync();
+
+            // Show users
+            //ArticleList.ItemsSource = items;
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -115,5 +136,113 @@ namespace UniversalBitak.Pages
         {
             this.Frame.Navigate(typeof(Pages.GridViewPage));
         }
+
+        #region SQLite utils
+        private async Task<bool> CheckDbAsync(string dbName)
+        {
+            bool dbExist = true;
+
+            try
+            {
+                StorageFile sf = await ApplicationData.Current.LocalFolder.GetFileAsync(dbName);
+            }
+            catch (Exception)
+            {
+                dbExist = false;
+            }
+
+            return dbExist;
+        }
+
+        private async Task CreateDatabaseAsync()
+        {
+            SQLiteAsyncConnection conn = new SQLiteAsyncConnection(dbName);
+            await conn.CreateTableAsync<Item>();
+        }
+
+        //private async Task AddItemsAsync()
+        //{
+        //    // Create a Items list
+        //    var list = new List<Item>()
+        //    {
+        //        new Item()
+        //        {
+        //            item = "Hackers exploit touch payment tech",
+        //            Content = "Security experts testing ways to break smartphone software have found several bugs in the NFC payment system found on many handsets."
+        //        },
+        //        new Item()
+        //        {
+        //            Title = "Assassin's Creed glitches criticised",
+        //            Content = "Widespread glitches in French Revolution-set Assassin's Creed: Unity have put its publisher Ubisoft under pressure."
+        //        }
+        //    };
+
+        //    // Add rows to the Item Table
+        //    SQLiteAsyncConnection conn = new SQLiteAsyncConnection(dbName);
+        //    await conn.InsertAllAsync(list);
+        //}
+
+        private async Task SearchItemByTitleAsync(string title)
+        {
+            SQLiteAsyncConnection conn = new SQLiteAsyncConnection(dbName);
+
+            AsyncTableQuery<Item> query = conn.Table<Item>().Where(x => x.itemName.Contains(title));
+            List<Item> result = await query.ToListAsync();
+            foreach (var item in result)
+            {
+                // ...
+            }
+
+            var allArticles = await conn.QueryAsync<Item>("SELECT * FROM Articles");
+            foreach (var article in allArticles)
+            {
+                // ...
+            }
+
+            var otherArticles = await conn.QueryAsync<Item>(
+                "SELECT Content FROM Articles WHERE Title = ?", new object[] { "Hackers, Creed" });
+            foreach (var article in otherArticles)
+            {
+                // ...
+            }
+        }
+
+        private async Task UpdateArticleTitleAsync(string oldTitle, string newTitle)
+        {
+            SQLiteAsyncConnection conn = new SQLiteAsyncConnection(dbName);
+
+            // Retrieve Article
+            var item = await conn.Table<Item>()
+                .Where(x => x.itemName == oldTitle).FirstOrDefaultAsync();
+            if (item != null)
+            {
+                // Modify Article
+                item.itemName = newTitle;
+
+                // Update record
+                await conn.UpdateAsync(item);
+            }
+        }
+
+        private async Task DeleteArticleAsync(string name)
+        {
+            SQLiteAsyncConnection conn = new SQLiteAsyncConnection(dbName);
+
+            // Retrieve Article
+            var article = await conn.Table<Item>().Where(x => x.itemName == name).FirstOrDefaultAsync();
+            if (article != null)
+            {
+                // Delete record
+                await conn.DeleteAsync(article);
+            }
+        }
+
+        private async Task DropTableAsync(string name)
+        {
+            SQLiteAsyncConnection conn = new SQLiteAsyncConnection(dbName);
+            await conn.DropTableAsync<Item>();
+        }
+
+        #endregion SQLite utils
     }
 }
