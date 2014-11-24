@@ -33,8 +33,7 @@ namespace UniversalBitak.Pages
         private const string dbName = "ItemsDatabase.db";
 
         public Point initialPoint;
-
-        public List<Item> items { get; set; }
+        public List<ItemForSql> items { get; set; }
 
         private NavigationHelper navigationHelper;
 
@@ -108,23 +107,23 @@ namespace UniversalBitak.Pages
         /// </summary>
         /// <param name="e">Provides data for navigation methods and event
         /// handlers that cannot cancel the navigation request.</param>
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
             this.navigationHelper.OnNavigatedTo(e);
-            //// Create Db if not exist
+            // Create Db if not exist
             //bool dbExists = await CheckDbAsync(dbName);
             //if (!dbExists)
             //{
             //    await CreateDatabaseAsync();
-            //    //await AddArticlesAsync();
+            //    await AddItemsAsync();
             //}
 
-            //// Get Articles
+            // Get Items
             //SQLiteAsyncConnection conn = new SQLiteAsyncConnection(dbName);
-            //var query = conn.Table<Item>();
+            //var query = conn.Table<ItemForSql>();
             //items = await query.ToListAsync();
 
-            // Show users
+            //// Show users
             //ArticleList.ItemsSource = items;
         }
 
@@ -160,49 +159,46 @@ namespace UniversalBitak.Pages
         private async Task CreateDatabaseAsync()
         {
             SQLiteAsyncConnection conn = new SQLiteAsyncConnection(dbName);
-            await conn.CreateTableAsync<Item>();
+            await conn.CreateTableAsync<ItemForSql>();
         }
 
-        //private async Task AddItemsAsync()
-        //{
-        //    // Create a Items list
-        //    var list = new List<Item>()
-        //    {
-        //        new Item()
-        //        {
-        //            item = "Hackers exploit touch payment tech",
-        //            Content = "Security experts testing ways to break smartphone software have found several bugs in the NFC payment system found on many handsets."
-        //        },
-        //        new Item()
-        //        {
-        //            Title = "Assassin's Creed glitches criticised",
-        //            Content = "Widespread glitches in French Revolution-set Assassin's Creed: Unity have put its publisher Ubisoft under pressure."
-        //        }
-        //    };
+        private async Task AddItemsAsync()
+        {
+            // Create a Items list
+            var list = new List<ItemForSql>()
+            {
+                new ItemForSql()
+                {
+                    Name = "Hackers",
+                    Description = "Security experts testing ways to break smartphone software have found several bugs in the NFC payment system found on many handsets.",
+                    Category = "Other",
+                    Price = 15.50
+                }                
+            };
 
-        //    // Add rows to the Item Table
-        //    SQLiteAsyncConnection conn = new SQLiteAsyncConnection(dbName);
-        //    await conn.InsertAllAsync(list);
-        //}
+            // Add rows to the Item Table
+            SQLiteAsyncConnection conn = new SQLiteAsyncConnection(dbName);
+            await conn.InsertAllAsync(list);
+        }
 
         private async Task SearchItemByTitleAsync(string title)
         {
             SQLiteAsyncConnection conn = new SQLiteAsyncConnection(dbName);
 
-            AsyncTableQuery<Item> query = conn.Table<Item>().Where(x => x.itemName.Contains(title));
-            List<Item> result = await query.ToListAsync();
+            AsyncTableQuery<ItemForSql> query = conn.Table<ItemForSql>().Where(x => x.Name.Contains(title));
+            List<ItemForSql> result = await query.ToListAsync();
             foreach (var item in result)
             {
                 // ...
             }
 
-            var allArticles = await conn.QueryAsync<Item>("SELECT * FROM Articles");
+            var allArticles = await conn.QueryAsync<ItemForSql>("SELECT * FROM Articles");
             foreach (var article in allArticles)
             {
                 // ...
             }
 
-            var otherArticles = await conn.QueryAsync<Item>(
+            var otherArticles = await conn.QueryAsync<ItemForSql>(
                 "SELECT Content FROM Articles WHERE Title = ?", new object[] { "Hackers, Creed" });
             foreach (var article in otherArticles)
             {
@@ -214,13 +210,11 @@ namespace UniversalBitak.Pages
         {
             SQLiteAsyncConnection conn = new SQLiteAsyncConnection(dbName);
 
-            // Retrieve Article
-            var item = await conn.Table<Item>()
-                .Where(x => x.itemName == oldTitle).FirstOrDefaultAsync();
+            var item = await conn.Table<ItemForSql>()
+                .Where(x => x.Name == oldTitle).FirstOrDefaultAsync();
             if (item != null)
             {
-                // Modify Article
-                item.itemName = newTitle;
+                item.Name = newTitle;
 
                 // Update record
                 await conn.UpdateAsync(item);
@@ -231,8 +225,7 @@ namespace UniversalBitak.Pages
         {
             SQLiteAsyncConnection conn = new SQLiteAsyncConnection(dbName);
 
-            // Retrieve Article
-            var article = await conn.Table<Item>().Where(x => x.itemName == name).FirstOrDefaultAsync();
+            var article = await conn.Table<ItemForSql>().Where(x => x.Name == name).FirstOrDefaultAsync();
             if (article != null)
             {
                 // Delete record
@@ -243,7 +236,7 @@ namespace UniversalBitak.Pages
         private async Task DropTableAsync(string name)
         {
             SQLiteAsyncConnection conn = new SQLiteAsyncConnection(dbName);
-            await conn.DropTableAsync<Item>();
+            await conn.DropTableAsync<ItemForSql>();
         }
 
         #endregion SQLite utils

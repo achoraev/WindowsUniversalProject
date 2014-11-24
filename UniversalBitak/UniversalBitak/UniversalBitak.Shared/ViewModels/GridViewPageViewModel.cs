@@ -25,7 +25,7 @@
         private async Task LoadItems()
         {
             this.Initializing = true;
-
+            
             var items = await new ParseQuery<Item>()
             .FindAsync();
 

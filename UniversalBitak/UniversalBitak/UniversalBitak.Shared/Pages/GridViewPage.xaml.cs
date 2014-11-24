@@ -41,13 +41,17 @@ namespace UniversalBitak.Pages
 
         public GridViewPage(GridViewPageViewModel viewModel)
         {            
-            this.InitializeComponent();            
+            this.InitializeComponent();
+
+            this.spinner.IsActive = true;
 
             this.navigationHelper = new NavigationHelper(this);
             this.navigationHelper.LoadState += this.NavigationHelper_LoadState;
             this.navigationHelper.SaveState += this.NavigationHelper_SaveState;
 
-            this.DataContext = viewModel;               
+            this.DataContext = viewModel;
+
+            this.spinner.IsActive = false; 
         }
 
         //private async void GetParseObjects()

@@ -20,6 +20,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Common\RelayCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\SuspensionManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Item.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ItemForSql.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\DetailsPage.xaml.cs">
       <DependentUpon>DetailsPage.xaml</DependentUpon>
     </Compile>

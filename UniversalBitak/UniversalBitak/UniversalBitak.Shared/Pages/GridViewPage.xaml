@@ -41,13 +41,14 @@
                 VerticalAlignment="Top"
                 Click="OnLoginOut"/>
 
-        <!--TODO: Content should be placed within the following grid-->        
+        <!--TODO: Content should be placed within the following grid-->
         <Grid Grid.Row="1"
-              Name="ItemsGridView">            
-            <ListView ItemsSource="{Binding Items}"
-                      ItemTemplate="{StaticResource ItemTemplate}"                       
+              Name="ItemsGridView">
+            <ListView                       
                       SelectionMode="Single"
                       SelectionChanged="OnItemListViewSelectionChanged" >
+                <ProgressRing Name="spinner" 
+                    Background="Transparent"/>
             </ListView>
         </Grid>
     </Grid>
