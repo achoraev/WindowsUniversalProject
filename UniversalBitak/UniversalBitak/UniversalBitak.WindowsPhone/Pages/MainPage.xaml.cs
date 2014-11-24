@@ -32,20 +32,22 @@ namespace UniversalBitak.Pages
     {
         private const string dbName = "ItemsDatabase.db";
 
+        public Point initialPoint;
+
         public List<Item> items { get; set; }
 
         private NavigationHelper navigationHelper;
 
-        private ObservableDictionary defaultViewModel = new ObservableDictionary();        
+        private ObservableDictionary defaultViewModel = new ObservableDictionary();
 
         public MainPage()
         {
-            this.InitializeComponent();                                 
-                     
+            this.InitializeComponent();
+
             this.navigationHelper = new NavigationHelper(this);
             this.navigationHelper.LoadState += this.NavigationHelper_LoadState;
             this.navigationHelper.SaveState += this.NavigationHelper_SaveState;
-        }        
+        }
 
         /// <summary>
         /// Gets the <see cref="NavigationHelper"/> associated with this <see cref="Page"/>.
@@ -106,20 +108,21 @@ namespace UniversalBitak.Pages
         /// </summary>
         /// <param name="e">Provides data for navigation methods and event
         /// handlers that cannot cancel the navigation request.</param>
-        protected async override void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            // Create Db if not exist
-            bool dbExists = await CheckDbAsync(dbName);
-            if (!dbExists)
-            {
-                await CreateDatabaseAsync();
-                //await AddArticlesAsync();
-            }
+            this.navigationHelper.OnNavigatedTo(e);
+            //// Create Db if not exist
+            //bool dbExists = await CheckDbAsync(dbName);
+            //if (!dbExists)
+            //{
+            //    await CreateDatabaseAsync();
+            //    //await AddArticlesAsync();
+            //}
 
-            // Get Articles
-            SQLiteAsyncConnection conn = new SQLiteAsyncConnection(dbName);
-            var query = conn.Table<Item>();
-            items = await query.ToListAsync();
+            //// Get Articles
+            //SQLiteAsyncConnection conn = new SQLiteAsyncConnection(dbName);
+            //var query = conn.Table<Item>();
+            //items = await query.ToListAsync();
 
             // Show users
             //ArticleList.ItemsSource = items;
@@ -244,5 +247,20 @@ namespace UniversalBitak.Pages
         }
 
         #endregion SQLite utils
+
+
+        private void MainPageManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
+        {
+            initialPoint = e.Position;
+        }
+
+        private void MainPageManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
+        {
+            Point currentpoint = e.Position;
+            if (initialPoint.X - currentpoint.X > 0)
+            {
+                this.Frame.Navigate(typeof(Pages.GridViewPage));
+            }
+        }
     }
 }

@@ -8,7 +8,11 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid x:Name="LayoutRoot" Background="{StaticResource logoBack}">
+    <Grid x:Name="LayoutRoot" 
+          Background="{StaticResource logoBack}"
+          ManipulationMode="All"
+          ManipulationStarted="MainPageManipulationStarted"
+          ManipulationDelta="MainPageManipulationDelta">
 
         <Grid.ChildrenTransitions>
             <TransitionCollection>

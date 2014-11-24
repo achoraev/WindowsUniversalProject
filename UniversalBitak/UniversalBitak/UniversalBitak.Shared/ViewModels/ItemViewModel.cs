@@ -57,6 +57,6 @@
 
         public double itemPrice { get; set; }
 
-        public Uri itemPicture { get; set; }
+        public ParseFile itemPicture { get; set; }
     }
 }

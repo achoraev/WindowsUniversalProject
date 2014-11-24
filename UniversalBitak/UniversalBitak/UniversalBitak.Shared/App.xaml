@@ -8,7 +8,7 @@
                     <DataTemplate x:Key="ItemTemplate">
                         <StackPanel Orientation="Horizontal" Margin="10,10,0,0">
                             <Image x:Name="image" 
-                                   Source="{Binding itemPicture}"
+                                   Source="{Binding itemPicture.Url}"
                                      Height="60"
                                      Width="60"
                                      VerticalAlignment="Center" 

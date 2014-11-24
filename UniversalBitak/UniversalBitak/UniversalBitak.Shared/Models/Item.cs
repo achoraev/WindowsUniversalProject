@@ -35,10 +35,10 @@
             set { SetProperty<string>(value); }
         }
         [ParseFieldName("itemPicture")]
-        public Uri itemPicture
+        public ParseFile itemPicture
         {
-            get { return GetProperty<Uri>(); }
-            set { SetProperty<Uri>(value); }
+            get { return GetProperty<ParseFile>(); }
+            set { SetProperty<ParseFile>(value); }
         }
 
         [ParseFieldName("itemPrice")]
