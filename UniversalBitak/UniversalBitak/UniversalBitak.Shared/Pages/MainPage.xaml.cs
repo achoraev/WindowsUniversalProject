@@ -16,6 +16,7 @@ namespace UniversalBitak.Pages
     using Windows.Foundation.Collections;
     using Windows.Graphics.Display;
     using Windows.Storage;
+    using Windows.UI.Popups;
     using Windows.UI.ViewManagement;
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
@@ -111,17 +112,22 @@ namespace UniversalBitak.Pages
         {
             this.navigationHelper.OnNavigatedTo(e);
             // Create Db if not exist
-            //bool dbExists = await CheckDbAsync(dbName);
-            //if (!dbExists)
-            //{
-            //    await CreateDatabaseAsync();
-            //    await AddItemsAsync();
-            //}
+            bool dbExists = await CheckDbAsync(dbName);
+            if (!dbExists)
+            {
+                await CreateDatabaseAsync();
+                await AddItemsAsync();
+                ShowMessageBox("Sql database created!", "Alert");
+            }
+            else
+            {
+                ShowMessageBox("Sql database exists!", "Alert");
+            }
 
             // Get Items
-            //SQLiteAsyncConnection conn = new SQLiteAsyncConnection(dbName);
-            //var query = conn.Table<ItemForSql>();
-            //items = await query.ToListAsync();
+            SQLiteAsyncConnection conn = new SQLiteAsyncConnection(dbName);
+            var query = conn.Table<ItemForSql>();
+            items = await query.ToListAsync();
 
             //// Show users
             //ArticleList.ItemsSource = items;
@@ -137,6 +143,20 @@ namespace UniversalBitak.Pages
         private void ToGridViewPage(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(Pages.GridViewPage));
+        }
+
+        private void ShowMessageBox(string message, string title)
+        {
+            MessageDialog msgDialog = new MessageDialog(message, title);
+
+            UICommand okBtn = new UICommand("OK");
+            msgDialog.Commands.Add(okBtn);
+
+            //Cancel Button
+            //UICommand cancelBtn = new UICommand("Cancel");           
+            //msgDialog.Commands.Add(cancelBtn);
+
+            msgDialog.ShowAsync();
         }
 
         #region SQLite utils
@@ -206,7 +226,7 @@ namespace UniversalBitak.Pages
             }
         }
 
-        private async Task UpdateArticleTitleAsync(string oldTitle, string newTitle)
+        private async Task UpdateItemNameAsync(string oldTitle, string newTitle)
         {
             SQLiteAsyncConnection conn = new SQLiteAsyncConnection(dbName);
 
@@ -221,7 +241,7 @@ namespace UniversalBitak.Pages
             }
         }
 
-        private async Task DeleteArticleAsync(string name)
+        private async Task DeleteItemsAsync(string name)
         {
             SQLiteAsyncConnection conn = new SQLiteAsyncConnection(dbName);
 

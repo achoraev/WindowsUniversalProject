@@ -52,31 +52,7 @@ namespace UniversalBitak.Pages
             this.DataContext = viewModel;
 
             this.spinner.IsActive = false; 
-        }
-
-        //private async void GetParseObjects()
-        //{
-        //    var allItems = ParseObject.GetQuery("Item");
-        //    ParseItems = await allItems.FindAsync();
-
-        //    foreach (var item in ParseItems)
-        //    {
-        //        this.GridViewItems.Add(new Item
-        //        {
-        //            itemName = item["itemName"].ToString(),
-        //            itemCategory = item["itemCategory"].ToString(),
-        //            itemDescription = item["itemDescription"].ToString(),
-        //            url = item.Get<ParseFile>("itemPicture").Url,
-        //            itemPrice = item.Get<Double>("itemPrice")                                   
-        //        });
-        //    }
-
-        //    var viewModel = new ItemViewModel("list");
-            
-        //    viewModel.ItemsOfItem = GridViewItems;
-
-        //    //ItemsGridView.DataContext = viewModel;
-        //}        
+        }        
 
         /// <summary>
         /// Gets the <see cref="NavigationHelper"/> associated with this <see cref="Page"/>.

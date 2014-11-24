@@ -44,7 +44,8 @@
         <!--TODO: Content should be placed within the following grid-->
         <Grid Grid.Row="1"
               Name="ItemsGridView">
-            <ListView                       
+            <ListView ItemsSource="{Binding Items}"  
+                      ItemTemplate="{StaticResource ItemTemplate}"
                       SelectionMode="Single"
                       SelectionChanged="OnItemListViewSelectionChanged" >
                 <ProgressRing Name="spinner" 
