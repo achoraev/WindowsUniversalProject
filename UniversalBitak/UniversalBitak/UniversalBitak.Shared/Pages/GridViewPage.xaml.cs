@@ -1,11 +1,20 @@
-﻿using UniversalBitak.Common;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
+
+using UniversalBitak.Common;
+using UniversalBitak.Models;
+using UniversalBitak.ViewModels;
+
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using Windows.UI.Popups;
+
+using GalaSoft.MvvmLight;
 using Parse;
-using UniversalBitak.ViewModels;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -15,18 +24,20 @@ namespace UniversalBitak.Pages
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
     public sealed partial class GridViewPage : Page
-    {          
+    {
         private NavigationHelper navigationHelper;
 
-        private ObservableDictionary defaultViewModel = new ObservableDictionary();
+        private ObservableCollection<ItemViewModel> items;
+
+        private bool initializing;
 
         public GridViewPage()
-           :this(new GridViewPageViewModel())
+            : this(new GridViewPageViewModel())
         {
         }
 
         public GridViewPage(GridViewPageViewModel viewModel)
-        {            
+        {
             this.InitializeComponent();
 
             this.navigationHelper = new NavigationHelper(this);
@@ -34,7 +45,7 @@ namespace UniversalBitak.Pages
             this.navigationHelper.SaveState += this.NavigationHelper_SaveState;
 
             this.DataContext = viewModel;
-        }        
+        }
 
         /// <summary>
         /// Gets the <see cref="NavigationHelper"/> associated with this <see cref="Page"/>.
@@ -42,15 +53,6 @@ namespace UniversalBitak.Pages
         public NavigationHelper NavigationHelper
         {
             get { return this.navigationHelper; }
-        }
-
-        /// <summary>
-        /// Gets the view model for this <see cref="Page"/>.
-        /// This can be changed to a strongly typed view model.
-        /// </summary>
-        public ObservableDictionary DefaultViewModel
-        {
-            get { return this.defaultViewModel; }
         }
 
         /// <summary>
@@ -78,6 +80,30 @@ namespace UniversalBitak.Pages
         /// serializable state.</param>
         private void NavigationHelper_SaveState(object sender, SaveStateEventArgs e)
         {
+        }        
+
+        public IEnumerable<ItemViewModel> Items
+        {
+            get
+            {
+                if (this.items == null)
+                {
+                    this.items = new ObservableCollection<ItemViewModel>();
+                }
+                return this.items;
+            }
+            set
+            {
+                if (this.items == null)
+                {
+                    this.items = new ObservableCollection<ItemViewModel>();
+                }
+                this.items.Clear();
+                foreach (var item in value)
+                {
+                    this.items.Add(item);
+                }
+            }
         }
 
         #region NavigationHelper registration
@@ -116,7 +142,7 @@ namespace UniversalBitak.Pages
             else
             {
                 this.Frame.Navigate(typeof(Pages.LoginPage));
-            }                
+            }
         }
 
         private void ShowMessageBox(string message, string title)
@@ -143,6 +169,26 @@ namespace UniversalBitak.Pages
             var itemListView = (sender as ListView);
             var selectedObject = itemListView.SelectedItem;
             this.Frame.Navigate(typeof(DetailsPage), selectedObject);
+        }
+
+        private void GoToBasket(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(UserBasketPage));
+        }
+
+        private void ShomMyItemsForSale(object sender, RoutedEventArgs e)
+        {
+            this.LoadItems();            
+        }
+
+        private async Task LoadItems()
+        {
+            var items = await new ParseQuery<Item>()
+            .Where(n => n.user == ParseUser.CurrentUser.Username)
+            .FindAsync();
+
+            this.Items = items.AsQueryable()
+                    .Select(ItemViewModel.FromModel);
         }
     }
 }

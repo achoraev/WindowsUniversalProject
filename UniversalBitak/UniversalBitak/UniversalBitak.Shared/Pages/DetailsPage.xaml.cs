@@ -131,8 +131,7 @@ namespace UniversalBitak.Pages
             if (transform != null)
             {
                 transform.ScaleX *= e.Delta.Scale;
-                transform.ScaleY *= e.Delta.Scale;
-                transform.Rotation += e.Delta.Scale / Math.PI;
+                transform.ScaleY *= e.Delta.Scale;                
                 transform.TranslateX += e.Delta.Translation.X;
                 transform.TranslateY += e.Delta.Translation.Y;
             }

@@ -18,46 +18,65 @@
         </Grid.ChildrenTransitions>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="85*"/>
-            <RowDefinition Height="447*"/>
+            <RowDefinition Height="200"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <!-- Title Panel -->
-        <StackPanel Grid.Row="0" 
-                    Margin="0,0,0,0.333"
-                    HorizontalAlignment="Left" Width="224">
-            <TextBlock Height="50"
-                       HorizontalAlignment="Right"
-                       Text="{ThemeResource AppName}" 
-                       Style="{ThemeResource TitleTextBlockStyle}" Margin="10,0,0,0"/>
-            <Button Content="Add New Item"                     
-                    HorizontalAlignment="Stretch" 
-                    VerticalAlignment="Stretch" 
-                    Margin="60,0,0,0"
-                    Click="AddNewItem"/>
-        </StackPanel>
-        <Button Content="Log Out" 
-                HorizontalAlignment="Left"
-                Margin="241,50,0,0" 
-                VerticalAlignment="Top"
-                Click="OnLoginOut" Height="58" Width="109"/>
+        <Grid Grid.Row="0">
+            <StackPanel>
+                <TextBlock Height="30"
+                           HorizontalAlignment="Center"
+                           Text="{ThemeResource AppName}" 
+                           Style="{ThemeResource TitleTextBlockStyle}"
+                           Margin="10,0,0,0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" 
+                        Margin="0,41,0,85"
+                        Height="40">
+                <Button Content="Add New Item"  
+                        HorizontalAlignment="Stretch"   
+                        Margin="40,0,0,0"
+                        Click="AddNewItem"/>
+                <Button Content="Log Out" 
+                        HorizontalAlignment="Stretch"
+                        Margin="40,0,0,0"    
+                        Click="OnLoginOut" 
+                        Height="58" 
+                        Width="144"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal"
+                        Height="50"
+                        Margin="0,60,0,0">
+                <Button Content="My Basket" 
+                        HorizontalAlignment="Left" 
+                        Margin="36,0,0,0" 
+                        VerticalAlignment="Top" 
+                        Width="146"
+                        Click="GoToBasket"/>
+                <Button Content="My items" 
+                        HorizontalAlignment="Left" 
+                        Margin="40,0,0,0" 
+                        VerticalAlignment="Top" 
+                        Width="150"
+                        Click="ShomMyItemsForSale"/>
+            </StackPanel>
+            <StackPanel>
+                <TextBox PlaceholderText="Search"
+                         VerticalAlignment="Bottom"
+                         Margin="0,160,0,0" />
+            </StackPanel>
+        </Grid>
+        <!--TODO: Content should be placed within the following grid-->
 
-        <!--TODO: Content should be placed within the following grid--> 
-        
         <Grid Grid.Row="1"
-              Name="ItemsGridView">
-            <Button Content="..." HorizontalAlignment="Left" Margin="36,0,0,0" 
-                    VerticalAlignment="Top" Width="146"/>
-            <Button Content="My items" HorizontalAlignment="Left" Margin="221,0,0,0" 
-                    VerticalAlignment="Top" Width="150"/>            
+              Name="ItemsGridView" 
+              Margin="0,0,0,0">
             <ListView ItemsSource="{Binding Items}"  
                       ItemTemplate="{StaticResource ItemTemplate}"
                       SelectionMode="Single"
-                      SelectionChanged="OnItemListViewSelectionChanged" Margin="0,67,0,-393" >                
-            </ListView>            
+                      SelectionChanged="OnItemListViewSelectionChanged">
+            </ListView>
         </Grid>
-        <TextBox PlaceholderText="Search"
-                 Margin="0,398.667,0,0" Grid.Row="2"/>
     </Grid>
 </Page>
