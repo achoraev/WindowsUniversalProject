@@ -6,12 +6,7 @@
                     <x:String x:Key="AppName">UniversalBitak</x:String>
                     <ImageBrush x:Key="logoBack" ImageSource="/Images/logo.png" Opacity=".3" Stretch="UniformToFill" />
                     <DataTemplate x:Key="ItemTemplate">
-                        <StackPanel Orientation="Horizontal" Margin="10,10,0,0">
-                            <StackPanel.ChildrenTransitions>
-                                <TransitionCollection>
-                                    <EntranceThemeTransition/>
-                                </TransitionCollection>
-                            </StackPanel.ChildrenTransitions>
+                        <StackPanel Orientation="Horizontal" Margin="10,10,0,0">                            
                             <Image x:Name="image" 
                                    Source="{Binding itemPicture.Url}"
                                      Height="100"

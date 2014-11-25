@@ -15,6 +15,11 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using SQLite;
+using UniversalBitak.Models;
+using System.Threading.Tasks;
+using Windows.Storage;
+using UniversalBitak.ViewModels;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -25,16 +30,26 @@ namespace UniversalBitak.Pages
     /// </summary>
     public sealed partial class UserBasketPage : Page
     {
+        private const string dbName = "ItemsDatabase.db";
+
+        public List<ItemForSql> items { get; set; }
+
         private NavigationHelper navigationHelper;
-        private ObservableDictionary defaultViewModel = new ObservableDictionary();
 
         public UserBasketPage()
+            :this(new BasketPageViewModel())
+        {
+        }
+
+        public UserBasketPage(BasketPageViewModel viewModel)
         {
             this.InitializeComponent();
 
             this.navigationHelper = new NavigationHelper(this);
             this.navigationHelper.LoadState += this.NavigationHelper_LoadState;
             this.navigationHelper.SaveState += this.NavigationHelper_SaveState;
+
+            this.ViewModel = viewModel;
         }
 
         /// <summary>
@@ -43,15 +58,6 @@ namespace UniversalBitak.Pages
         public NavigationHelper NavigationHelper
         {
             get { return this.navigationHelper; }
-        }
-
-        /// <summary>
-        /// Gets the view model for this <see cref="Page"/>.
-        /// This can be changed to a strongly typed view model.
-        /// </summary>
-        public ObservableDictionary DefaultViewModel
-        {
-            get { return this.defaultViewModel; }
         }
 
         /// <summary>
@@ -96,9 +102,34 @@ namespace UniversalBitak.Pages
         /// </summary>
         /// <param name="e">Provides data for navigation methods and event
         /// handlers that cannot cancel the navigation request.</param>
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
+            this.ViewModel.Item = e.Parameter as ItemViewModel;
             this.navigationHelper.OnNavigatedTo(e);
+            // Create Db if not exist
+            
+            bool dbExists = await CheckDbAsync(dbName);
+            if (dbExists)
+            {
+                if (this.ViewModel.Item != null)
+                {
+                    await AddItemsAsync();
+                }                
+            }
+            else
+            {
+                await CreateDatabaseAsync();
+                await AddItemsAsync();
+            }
+
+
+            // Get Items
+            SQLiteAsyncConnection conn = new SQLiteAsyncConnection(dbName);
+            var query = conn.Table<ItemForSql>();
+            items = await query.ToListAsync();
+
+            // Show users
+            this.ItemBasketList.ItemsSource = items;
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -106,6 +137,144 @@ namespace UniversalBitak.Pages
             this.navigationHelper.OnNavigatedFrom(e);
         }
 
+        public BasketPageViewModel ViewModel
+        {
+            get
+            {
+                return (BasketPageViewModel)this.DataContext;
+            }
+            set
+            {
+                this.DataContext = value;
+            }
+        }
+
         #endregion
+
+        #region SQLite utils
+        private async Task<bool> CheckDbAsync(string dbName)
+        {
+            bool dbExist = true;
+
+            try
+            {
+                StorageFile sf = await ApplicationData.Current.LocalFolder.GetFileAsync(dbName);
+            }
+            catch (Exception)
+            {
+                dbExist = false;
+            }
+
+            return dbExist;
+        }
+
+        private async Task CreateDatabaseAsync()
+        {
+            SQLiteAsyncConnection conn = new SQLiteAsyncConnection(dbName);
+            await conn.CreateTableAsync<ItemForSql>();
+        }
+
+        private async Task AddItemsAsync()
+        {
+            // Create a Items list
+            var list = new List<ItemForSql>()
+            {
+                new ItemForSql()
+                {
+                    Name = this.ViewModel.Item.itemName,
+                    Description = this.ViewModel.Item.itemDescription,
+                    Category = this.ViewModel.Item.itemCategory,
+                    Price = this.ViewModel.Item.itemPrice,
+                    Picture = this.ViewModel.Item.itemPicture.Url.ToString()
+                },
+                
+            };
+
+            // Add rows to the Item Table
+            SQLiteAsyncConnection conn = new SQLiteAsyncConnection(dbName);
+            await conn.InsertAllAsync(list);
+        }        
+
+        private async Task SearchItemByTitleAsync(string title)
+        {
+            SQLiteAsyncConnection conn = new SQLiteAsyncConnection(dbName);
+
+            AsyncTableQuery<ItemForSql> query = conn.Table<ItemForSql>().Where(x => x.Name.Contains(title));
+            List<ItemForSql> result = await query.ToListAsync();
+            foreach (var item in result)
+            {
+                // ...
+            }
+
+            var allArticles = await conn.QueryAsync<ItemForSql>("SELECT * FROM Articles");
+            foreach (var article in allArticles)
+            {
+                // ...
+            }
+
+            var otherArticles = await conn.QueryAsync<ItemForSql>(
+                "SELECT Content FROM Articles WHERE Title = ?", new object[] { "Hackers, Creed" });
+            foreach (var article in otherArticles)
+            {
+                // ...
+            }
+        }
+
+        private async Task UpdateItemNameAsync(string oldTitle, string newTitle)
+        {
+            SQLiteAsyncConnection conn = new SQLiteAsyncConnection(dbName);
+
+            var item = await conn.Table<ItemForSql>()
+                .Where(x => x.Name == oldTitle).FirstOrDefaultAsync();
+            if (item != null)
+            {
+                item.Name = newTitle;
+
+                // Update record
+                await conn.UpdateAsync(item);
+            }
+        }
+
+        private async Task DeleteItemsAsync(string name)
+        {
+            SQLiteAsyncConnection conn = new SQLiteAsyncConnection(dbName);
+
+            var article = await conn.Table<ItemForSql>().Where(x => x.Name == name).FirstOrDefaultAsync();
+            if (article != null)
+            {
+                // Delete record
+                await conn.DeleteAsync(article);
+            }
+        }
+
+        private async Task DropTableAsync(string name)
+        {
+            SQLiteAsyncConnection conn = new SQLiteAsyncConnection(dbName);
+            await conn.DropTableAsync<ItemForSql>();
+        }
+
+        private void RefreshListView()
+        {
+            this.ItemBasketList.ItemsSource = items;
+            this.Frame.Navigate(typeof(UserBasketPage));
+        }
+
+        #endregion SQLite utils
+
+        private async void OnHoldingListItem(object sender, HoldingRoutedEventArgs e)
+        {
+            var itemListView = (sender as ListView);
+            var selectedObject = (itemListView.SelectedValue as ItemForSql).Name;
+            await DeleteItemsAsync(selectedObject);
+            RefreshListView();
+        }
+
+        private async void OnSelectListItem(object sender, SelectionChangedEventArgs e)
+        {
+            var itemListView = (sender as ListView);
+            var selectedObject = (itemListView.SelectedValue as ItemForSql).Name;
+            await DeleteItemsAsync(selectedObject);
+            RefreshListView();
+        }
     }
 }

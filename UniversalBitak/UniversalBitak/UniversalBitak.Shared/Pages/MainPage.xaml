@@ -33,8 +33,20 @@
         </StackPanel>
 
         <!--TODO: Content should be placed within the following grid-->
+        <StackPanel>
+            <StackPanel.Resources>
+                <!-- Animates the image opacity. -->
+                <Storyboard x:Name="logoAnimated">
+                    <DoubleAnimation Storyboard.TargetName="logo"
+                                     Storyboard.TargetProperty="Opacity"                                    
+                                     From="1.0" To="0.0" Duration="0:0:4"
+                                     AutoReverse="True"
+                                     RepeatBehavior="Forever"/>
+                </Storyboard>
+            </StackPanel.Resources>            
+        </StackPanel>
         <Image HorizontalAlignment="Left"
-               Name="logo"
+               x:Name="logo"
                Source="/Images/logo.png"
                Stretch="Fill"
                Height="211"

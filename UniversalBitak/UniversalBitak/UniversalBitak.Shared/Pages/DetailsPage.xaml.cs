@@ -8,6 +8,9 @@ namespace UniversalBitak.Pages
     using Windows.UI.Xaml.Navigation;
     using UniversalBitak.ViewModels;
     using Windows.UI.Xaml;
+    using Parse;
+    using Windows.UI.Xaml.Input;
+    using Windows.UI.Xaml.Media;
 
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
@@ -16,10 +19,8 @@ namespace UniversalBitak.Pages
     {
         private NavigationHelper navigationHelper;
 
-        private ObservableDictionary defaultViewModel = new ObservableDictionary();
-
         public DetailsPage()
-            :this(new ItemDetailsPageViewModel())
+            : this(new ItemDetailsPageViewModel())
         {
 
         }
@@ -41,15 +42,6 @@ namespace UniversalBitak.Pages
         public NavigationHelper NavigationHelper
         {
             get { return this.navigationHelper; }
-        }
-
-        /// <summary>
-        /// Gets the view model for this <see cref="Page"/>.
-        /// This can be changed to a strongly typed view model.
-        /// </summary>
-        public ObservableDictionary DefaultViewModel
-        {
-            get { return this.defaultViewModel; }
         }
 
         /// <summary>
@@ -121,15 +113,29 @@ namespace UniversalBitak.Pages
 
         private void OnSendMsgBtnClick(object sender, RoutedEventArgs e)
         {
-
-
             this.Frame.Navigate(typeof(SellerSendMailPage));
         }
 
         private void OnBuyBtnClick(object sender, RoutedEventArgs e)
         {
-
-            this.Frame.Navigate(typeof(UserBasketPage));
+            if (ParseUser.CurrentUser != null)
+            {
+                this.Frame.Navigate(typeof(UserBasketPage), ViewModel.Item);
+            }
         }
+
+        private void OnPinchActivated(object sender, ManipulationDeltaRoutedEventArgs e)
+        {
+            UIElement element = sender as UIElement;
+            CompositeTransform transform = element.RenderTransform as CompositeTransform;
+            if (transform != null)
+            {
+                transform.ScaleX *= e.Delta.Scale;
+                transform.ScaleY *= e.Delta.Scale;
+                transform.Rotation += e.Delta.Scale / Math.PI;
+                transform.TranslateX += e.Delta.Translation.X;
+                transform.TranslateY += e.Delta.Translation.Y;
+            }
+        }   
     }
 }

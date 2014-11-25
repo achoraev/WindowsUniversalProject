@@ -11,7 +11,7 @@
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
 
-        [Unique, MaxLength(150)]
+        [MaxLength(150)]
         public string Name { get; set; }
 
         public string Description { get; set; }
@@ -19,5 +19,7 @@
         public string Category { get; set; }
 
         public double Price { get; set; }
+
+        public string Picture { get; set; }
     }
 }

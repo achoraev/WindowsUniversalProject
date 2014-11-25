@@ -42,8 +42,18 @@
                            Width="200"
                            Margin="15,5,0,10"/>
             </StackPanel>
-            <Image Source="{Binding itemPicture.Url}" 
-                	Margin="13,73,19,-277"/>
+            <!--<ScrollViewer ZoomMode="Enabled">-->
+                <Image Source="{Binding itemPicture.Url}" 
+                       Margin="5,60,5,-300"
+                       ManipulationMode="All"
+                       ManipulationDelta="OnPinchActivated"                       
+                       Name="img">
+                    <Image.RenderTransform>
+                        <CompositeTransform CenterX="150"
+                                            CenterY="150"></CompositeTransform>
+                    </Image.RenderTransform>
+                </Image>
+            <!--</ScrollViewer>-->
         </Grid>
         <Grid Grid.Row="2" Margin="20,10.5,0,24">
             <StackPanel Orientation="Horizontal"

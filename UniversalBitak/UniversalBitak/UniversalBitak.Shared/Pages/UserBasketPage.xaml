@@ -5,7 +5,7 @@
     xmlns:local="using:UniversalBitak.Pages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
+    mc:Ignorable="d"    
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid x:Name="LayoutRoot">
@@ -23,13 +23,56 @@
 
         <!-- Title Panel -->
         <StackPanel Grid.Row="0" Margin="19,0,0,0">
-            <TextBlock Text="{StaticResource AppName}" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
-            <TextBlock Text="Basket" Margin="0,-6.5,0,26.5" Style="{ThemeResource HeaderTextBlockStyle}" CharacterSpacing="{ThemeResource PivotHeaderItemCharacterSpacing}"/>
+            <TextBlock Text="{StaticResource AppName}"
+                       HorizontalAlignment="Center"
+                       Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
+            <TextBlock Text="My Basket"
+                       TextAlignment="Center"
+                       FontSize="30" />
         </StackPanel>
-
+        
         <!--TODO: Content should be placed within the following grid-->
         <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
-
+            <ListView x:Name="ItemBasketList" 
+                      Grid.Row="1" Margin="20"
+                      SelectionMode="Single"                      
+                      Holding="OnHoldingListItem"
+                      SelectionChanged="OnSelectListItem">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" Margin="10,10,0,0">
+                            <Image x:Name="image" 
+                                   Source="{Binding Picture}"
+                                     Height="100"
+                                     Width="100"
+                                     VerticalAlignment="Center" 
+                                     Margin="0,0,10,0"/>
+                            <StackPanel Margin="0,0,0,0" Orientation="Vertical">                                
+                                <TextBlock  Text="{Binding Name}"
+                                            TextWrapping="Wrap" 
+                                            Foreground="{StaticResource ApplicationForegroundThemeBrush}"
+                                            FontSize="20" 
+                                            FontWeight="Light"
+                                            Width="200" 
+                                            VerticalAlignment="Center" 
+                                            HorizontalAlignment="Left"
+                                            FontFamily="Segoe UI"/>                                  
+                                <TextBlock Text="{Binding Description}"
+                                           TextWrapping="Wrap"
+                                           Foreground="{StaticResource ApplicationForegroundThemeBrush}"
+                                           FontSize="20"
+                                           FontWeight="Light" 
+                                           Width="200" 
+                                           MaxHeight="25"
+                                           VerticalAlignment="Center" 
+                                           HorizontalAlignment="Left"/>
+                                <TextBlock Text="{Binding Price}" 
+                                           FontSize="20"/>                                
+                            </StackPanel>
+                        </StackPanel>
+                    </DataTemplate>                    
+                </ListView.ItemTemplate>
+            </ListView>
         </Grid>
     </Grid>
 </Page>

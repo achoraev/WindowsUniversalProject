@@ -19,11 +19,8 @@ namespace UniversalBitak.Pages
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
     public sealed partial class MainPage : Page
-    {
-        private const string dbName = "ItemsDatabase.db";
-
-        public Point initialPoint;
-        public List<ItemForSql> items { get; set; }
+    {        
+        public Point initialPoint;        
 
         private NavigationHelper navigationHelper;
 
@@ -32,6 +29,8 @@ namespace UniversalBitak.Pages
         public MainPage()
         {
             this.InitializeComponent();
+
+            logoAnimated.Begin();
 
             this.navigationHelper = new NavigationHelper(this);
             this.navigationHelper.LoadState += this.NavigationHelper_LoadState;
@@ -97,24 +96,9 @@ namespace UniversalBitak.Pages
         /// </summary>
         /// <param name="e">Provides data for navigation methods and event
         /// handlers that cannot cancel the navigation request.</param>
-        protected async override void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            this.navigationHelper.OnNavigatedTo(e);
-            // Create Db if not exist
-            bool dbExists = await CheckDbAsync(dbName);
-            if (!dbExists)
-            {
-                await CreateDatabaseAsync();
-                await AddItemsAsync();                
-            }            
-
-            // Get Items
-            SQLiteAsyncConnection conn = new SQLiteAsyncConnection(dbName);
-            var query = conn.Table<ItemForSql>();
-            items = await query.ToListAsync();
-
-            //// Show users
-            //ArticleList.ItemsSource = items;
+            this.navigationHelper.OnNavigatedTo(e);            
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -127,111 +111,9 @@ namespace UniversalBitak.Pages
         private void ToGridViewPage(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(Pages.GridViewPage));
-        }        
+        }                
 
-        #region SQLite utils
-        private async Task<bool> CheckDbAsync(string dbName)
-        {
-            bool dbExist = true;
-
-            try
-            {
-                StorageFile sf = await ApplicationData.Current.LocalFolder.GetFileAsync(dbName);
-            }
-            catch (Exception)
-            {
-                dbExist = false;
-            }
-
-            return dbExist;
-        }
-
-        private async Task CreateDatabaseAsync()
-        {
-            SQLiteAsyncConnection conn = new SQLiteAsyncConnection(dbName);
-            await conn.CreateTableAsync<ItemForSql>();
-        }
-
-        private async Task AddItemsAsync()
-        {
-            // Create a Items list
-            var list = new List<ItemForSql>()
-            {
-                new ItemForSql()
-                {
-                    Name = "Hackers",
-                    Description = "Security experts testing ways to break smartphone software have found several bugs in the NFC payment system found on many handsets.",
-                    Category = "Other",
-                    Price = 15.50
-                }                
-            };
-
-            // Add rows to the Item Table
-            SQLiteAsyncConnection conn = new SQLiteAsyncConnection(dbName);
-            await conn.InsertAllAsync(list);
-        }
-
-        private async Task SearchItemByTitleAsync(string title)
-        {
-            SQLiteAsyncConnection conn = new SQLiteAsyncConnection(dbName);
-
-            AsyncTableQuery<ItemForSql> query = conn.Table<ItemForSql>().Where(x => x.Name.Contains(title));
-            List<ItemForSql> result = await query.ToListAsync();
-            foreach (var item in result)
-            {
-                // ...
-            }
-
-            var allArticles = await conn.QueryAsync<ItemForSql>("SELECT * FROM Articles");
-            foreach (var article in allArticles)
-            {
-                // ...
-            }
-
-            var otherArticles = await conn.QueryAsync<ItemForSql>(
-                "SELECT Content FROM Articles WHERE Title = ?", new object[] { "Hackers, Creed" });
-            foreach (var article in otherArticles)
-            {
-                // ...
-            }
-        }
-
-        private async Task UpdateItemNameAsync(string oldTitle, string newTitle)
-        {
-            SQLiteAsyncConnection conn = new SQLiteAsyncConnection(dbName);
-
-            var item = await conn.Table<ItemForSql>()
-                .Where(x => x.Name == oldTitle).FirstOrDefaultAsync();
-            if (item != null)
-            {
-                item.Name = newTitle;
-
-                // Update record
-                await conn.UpdateAsync(item);
-            }
-        }
-
-        private async Task DeleteItemsAsync(string name)
-        {
-            SQLiteAsyncConnection conn = new SQLiteAsyncConnection(dbName);
-
-            var article = await conn.Table<ItemForSql>().Where(x => x.Name == name).FirstOrDefaultAsync();
-            if (article != null)
-            {
-                // Delete record
-                await conn.DeleteAsync(article);
-            }
-        }
-
-        private async Task DropTableAsync(string name)
-        {
-            SQLiteAsyncConnection conn = new SQLiteAsyncConnection(dbName);
-            await conn.DropTableAsync<ItemForSql>();
-        }
-
-        #endregion SQLite utils
-
-
+        // swipe navigation
         private void MainPageManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
         {
             initialPoint = e.Position;
